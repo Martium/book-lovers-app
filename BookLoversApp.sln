@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Martium.BookLovers.Api.Contracts", "src\Martium.BookLovers.Api.Contracts\Martium.BookLovers.Api.Contracts.csproj", "{7B1C4C74-3D63-46D7-81DE-F1E7A6BFA34A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Martium.BookLovers.Api.Host", "src\Martium.BookLovers.Api.Host\Martium.BookLovers.Api.Host.csproj", "{1150EEAE-EFBD-45E2-963F-4F5F891B706D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B1C4C74-3D63-46D7-81DE-F1E7A6BFA34A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1C4C74-3D63-46D7-81DE-F1E7A6BFA34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1C4C74-3D63-46D7-81DE-F1E7A6BFA34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1C4C74-3D63-46D7-81DE-F1E7A6BFA34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1150EEAE-EFBD-45E2-963F-4F5F891B706D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1150EEAE-EFBD-45E2-963F-4F5F891B706D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1150EEAE-EFBD-45E2-963F-4F5F891B706D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1150EEAE-EFBD-45E2-963F-4F5F891B706D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27DA08C3-2ACA-4E0A-8053-0717717B8D32}
+	EndGlobalSection
+EndGlobal
