@@ -11,10 +11,13 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
     public class AuthorsController : ControllerBase
     {
+        private readonly List<string> _authors = new List<string> () { "J. K. Rowling", "George R. R. Martin" };
+
         [HttpGet]
+
         public ActionResult<IEnumerable<string>> GetAll()
         {
-            return new string[] { "J. K. Rowling", "George R. R. Martin" };
+            return _authors;
         }
     }
 }
