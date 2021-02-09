@@ -12,7 +12,6 @@ namespace Martium.BookLovers.Api.Host.Controllers
     public class AuthorsController : ControllerBase
     {
         [HttpGet]
-
         public ActionResult<IEnumerable<string>> GetAll()
         {
             return new string[] { "J. K. Rowling", "George R. R. Martin" };
