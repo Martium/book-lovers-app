@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Martium.BookLovers.Api.Host", "src\Martium.BookLovers.Api.Host\Martium.BookLovers.Api.Host.csproj", "{1150EEAE-EFBD-45E2-963F-4F5F891B706D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Martium.BookLovers.Contracts", "Martium.BookLovers.Contracts\Martium.BookLovers.Contracts.csproj", "{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Martium.BookLovers.Api.Contracts", "src\Martium.BookLovers.Contracts\Martium.BookLovers.Api.Contracts.csproj", "{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
