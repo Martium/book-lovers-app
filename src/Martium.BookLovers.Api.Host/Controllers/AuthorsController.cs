@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Martium.BookLovers.Api.Contracts.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using 
 
 namespace Martium.BookLovers.Api.Host.Controllers
 {
@@ -12,12 +12,16 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
     public class AuthorsController : ControllerBase
     {
-        private readonly List<string> _authors = new List<string> () { "J. K. Rowling", "George R. R. Martin" };
+        private readonly List<Author> _authors = new List<Author> ()
+        {
+            new Author() {Id = 1, FirstName = "Joanne", LastName =  "Rowling"},
+            new Author() {Id = 2, FirstName = "George", LastName = "Raymond Richard Martin"}
+        };
 
         [HttpGet]
         [Route("authors")]
 
-        public ActionResult<IEnumerable<string>> GetAll()
+        public ActionResult<IEnumerable<Author>> GetAll()
         {
             return _authors;
         }
