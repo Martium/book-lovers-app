@@ -17,7 +17,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpGet]
         [Route("authors")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetAll()
+        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthors()
         {
             return Ok(_authors);
         }
