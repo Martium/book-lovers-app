@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Martium.BookLovers.Contracts\Martium.BookLovers.Api.Contracts.csproj" />
+    <ProjectReference Include="..\Martium.BookLovers.Api.Contracts\Martium.BookLovers.Api.Contracts.csproj" />
   </ItemGroup>
 
 
