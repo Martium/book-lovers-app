@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Martium.BookLovers.Api.Contracts.Contracts;
+using Martium.BookLovers.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Martium.BookLovers.Api.Host.Controllers
