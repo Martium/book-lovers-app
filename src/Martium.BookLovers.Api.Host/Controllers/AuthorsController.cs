@@ -9,16 +9,15 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
     public class AuthorsController : ControllerBase
     {
-        private readonly List<Author> _authors = new List<Author>
+        private readonly List<AuthorReadModel> _authors = new List<AuthorReadModel>
         {
-            new Author { Id = 1, FirstName = "Joanne", LastName =  "Rowling" },
-            new Author { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
+            new AuthorReadModel { Id = 1, FirstName = "Joanne", LastName =  "Rowling" },
+            new AuthorReadModel { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
         };
 
         [HttpGet]
         [Route("authors")]
-
-        public ActionResult<IEnumerable<Author>> GetAll()
+        public ActionResult<IEnumerable<AuthorReadModel>> GetAll()
         {
             return _authors;
         }

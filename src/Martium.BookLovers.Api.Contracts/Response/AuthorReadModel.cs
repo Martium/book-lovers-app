@@ -1,6 +1,6 @@
 ﻿namespace Martium.BookLovers.Api.Contracts.Response
 {
-    public class Author
+    public class AuthorReadModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
