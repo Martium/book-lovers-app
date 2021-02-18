@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Martium.BookLovers.Api.Contracts.Response;
 using Microsoft.AspNetCore.Mvc;
 
