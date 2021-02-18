@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Martium.BookLovers.Api.Contracts.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +35,5 @@ namespace Martium.BookLovers.Api.Host.Controllers
             var author = _authors[id - 1];
             return Ok(author);
         }
-
-
     }
 }
