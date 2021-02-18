@@ -34,5 +34,20 @@ namespace Martium.BookLovers.Api.Host.Controllers
             var author = _authors[id - 1];
             return Ok(author);
         }
+
+        [HttpPost]
+        [Route("new")]
+
+        public ActionResult Create([FromBody] AuthorReadModel authorReadModel)
+        {
+            int newId = _authors.Count + 1;
+            string firstName = "kazkas";
+            string lastName = "niekas";
+
+            _authors.Add(new AuthorReadModel {Id = newId, FirstName = firstName, LastName = lastName});
+
+            return Created("v1/bookLovers", _authors);
+        }
+
     }
 }
