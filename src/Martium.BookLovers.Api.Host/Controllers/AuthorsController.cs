@@ -27,7 +27,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("author/{id}")]
         public ActionResult<AuthorReadModel> GetAuthor(int id)
         {
-            if (id > _authors.Count)
+            if (id > _authors.Count || id <= 0)
             {
                 return BadRequest($"Bad Author Id (must be in the range 1 - {_authors.Count})");
             }
