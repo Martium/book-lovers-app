@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,25 +28,24 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetAuthor(int id)
         {
-            /*if (id > _authors.Count || id <= 0)
+
+            if (!_authors.Exists(x => x.Id == id))
             {
-                return BadRequest($"Bad Author Id (must be in the range 1 - {_authors.Count})");
-            }*/
+                return NotFound("NotFound");
+            }
 
             AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == id);
-
-            // ar rado ar ne ? ir jei nerado tada grazini NotFound
 
             return Ok(author);
         }
 
         [HttpPost]
         [Route("authors")]
-        public ActionResult Create([FromBody] AuthorReadModel newAuthorRequest)
+        public ActionResult Create([FromBody] NewAuthorReadModel newAuthorRequest)
         {
             int newId = _authors.Max(x => x.Id) + 1;
 
-            var newAuthor = new AuthorReadModel
+            var newAuthor = new AuthorReadModel()
             {
                 Id = newId, 
                 FirstName = newAuthorRequest.FirstName, 
