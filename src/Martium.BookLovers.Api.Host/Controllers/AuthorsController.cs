@@ -48,6 +48,5 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             return Created("v1/bookLovers", _authors);
         }
-
     }
 }
