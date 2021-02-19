@@ -92,7 +92,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
                 return NotFound("NotFound");
             }
 
-            return Ok();
+            return NoContent();
         }
     }
 }
