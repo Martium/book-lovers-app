@@ -84,8 +84,8 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             if (existingAuthor != null)
             {
-                var itemToRemove = _authors.Single(r => r.Id == id);
-                _authors.Remove(itemToRemove);
+                var authorToRemove = _authors.Single(r => r.Id == id);
+                _authors.Remove(authorToRemove);
             }
             else
             {
