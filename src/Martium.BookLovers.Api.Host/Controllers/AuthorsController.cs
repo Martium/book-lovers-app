@@ -59,23 +59,23 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpPut]
         [Route("authors/{id}")]
-        public ActionResult Update([FromBody] AuthorReadModel updateAuthorRequest, int id)
+        public ActionResult Update([FromBody] NewAuthorReadModel updateAuthor, int id)
         {
-            if (!_authors.Exists(x => x.Id == id))
+            // if (!_authors.Exists(x => x.Id == id))
+            // {
+            //     return NotFound("NotFound");
+            // }
+
+            var existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
+
+            if (existingAuthor != null)
             {
-                return NotFound("NotFound");
+                existingAuthor.FirstName = updateAuthor.FirstName;
+                existingAuthor.LastName = updateAuthor.LastName;
             }
 
-            
-            var updateAuthor = new AuthorReadModel()
-            {
-                Id = id,
-                FirstName = updateAuthorRequest.FirstName,
-                LastName = updateAuthorRequest.LastName
-            };
-
-            
-            return Update(updateAuthor, id);
+            return Ok();
         }
+
     }
 }
