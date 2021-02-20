@@ -28,28 +28,29 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetAuthor(int id)
         {
+            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == id);
 
-            if (!_authors.Exists(x => x.Id == id))
+            if (author != null)
+            {
+                return Ok(author);
+            }
+            else
             {
                 return NotFound("NotFound");
             }
-
-            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == id);
-
-            return Ok(author);
         }
 
         [HttpPost]
         [Route("authors")]
-        public ActionResult Create([FromBody] NewAuthorReadModel newAuthorRequest)
+        public ActionResult Create([FromBody] AuthorModel authorRequest)
         {
             int newId = _authors.Max(x => x.Id) + 1;
 
             var newAuthor = new AuthorReadModel()
             {
                 Id = newId, 
-                FirstName = newAuthorRequest.FirstName, 
-                LastName = newAuthorRequest.LastName
+                FirstName = authorRequest.FirstName, 
+                LastName = authorRequest.LastName
             };
 
             _authors.Add(newAuthor);
@@ -59,7 +60,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpPut]
         [Route("authors/{id}")]
-        public ActionResult Update([FromBody] NewAuthorReadModel updateAuthor, int id)
+        public ActionResult Update([FromBody] AuthorModel updateAuthor, int id)
         {
             var existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
 
