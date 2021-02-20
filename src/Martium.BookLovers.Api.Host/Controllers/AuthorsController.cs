@@ -2,13 +2,14 @@
 using System.Linq;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Martium.BookLovers.Api.Host.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
     [Route("v1/bookLovers")]
-
     public class AuthorsController : ControllerBase
     {
         private static List<AuthorReadModel> _authors = new List<AuthorReadModel>
@@ -18,13 +19,15 @@ namespace Martium.BookLovers.Api.Host.Controllers
         };
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthors()
+        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthorsList()
         {
             return Ok(_authors);
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetAuthor(int id)
         {
@@ -39,56 +42,55 @@ namespace Martium.BookLovers.Api.Host.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("authors")]
-        public ActionResult Create([FromBody] AuthorModel authorRequest)
+        public ActionResult<AuthorReadModel> CreateAuthor([FromBody] AuthorModel authorRequest)
         {
-            int newId = _authors.Max(x => x.Id) + 1;
+            int id = _authors.Max(x => x.Id) + 1;
 
             var newAuthor = new AuthorReadModel()
             {
-                Id = newId, 
+                Id = id, 
                 FirstName = authorRequest.FirstName, 
                 LastName = authorRequest.LastName
             };
 
             _authors.Add(newAuthor);
 
-            return CreatedAtAction(nameof(GetAuthor), new { id = newId }, newAuthor);
+            return CreatedAtAction(nameof(GetAuthor), new { id }, newAuthor);
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors/{id}")]
-        public ActionResult Update([FromBody] AuthorModel authorUpdate, int id)
+        public ActionResult<AuthorReadModel> UpdateAuthor([FromBody] AuthorModel authorUpdate, int id)
         {
-            AuthorReadModel existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
+            AuthorReadModel author = _authors.FirstOrDefault(c => c.Id == id);
 
-            if (existingAuthor != null)
-            {
-                existingAuthor.FirstName = authorUpdate.FirstName;
-                existingAuthor.LastName = authorUpdate.LastName;
-            }
-            else
+            if (author == null)
             {
                 return NotFound("authorNotFound");
             }
 
-            return Ok();
+            author.FirstName = authorUpdate.FirstName;
+            author.LastName = authorUpdate.LastName;
+
+            return Ok(author);
         }
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [Route("authors/{id}")]
         public ActionResult DeleteAuthor(int id)
         {
-            AuthorReadModel existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
+            AuthorReadModel author = _authors.FirstOrDefault(c => c.Id == id);
 
-            if (existingAuthor != null)
-            {
-                _authors.Remove(existingAuthor);
-            }
-            else
+            if (author == null)
             {
                 return NotFound("authorNotFound");
             }
+
+            _authors.Remove(author);
 
             return NoContent();
         }
