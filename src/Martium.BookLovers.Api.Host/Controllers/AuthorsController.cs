@@ -60,14 +60,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpPut]
         [Route("authors/{id}")]
-        public ActionResult Update([FromBody] AuthorModel updateAuthor, int id)
+        public ActionResult Update([FromBody] AuthorModel authorUpdate, int id)
         {
             var existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
 
             if (existingAuthor != null)
             {
-                existingAuthor.FirstName = updateAuthor.FirstName;
-                existingAuthor.LastName = updateAuthor.LastName;
+                existingAuthor.FirstName = authorUpdate.FirstName;
+                existingAuthor.LastName = authorUpdate.LastName;
             }
             else
             {
