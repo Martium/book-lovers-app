@@ -30,14 +30,12 @@ namespace Martium.BookLovers.Api.Host.Controllers
         {
             AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == id);
 
-            if (author != null)
-            {
-                return Ok(author);
-            }
-            else
+            if (author == null)
             {
                 return NotFound("NotFound");
             }
+
+            return Ok(author);
         }
 
         [HttpPost]
@@ -62,7 +60,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            var existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
+            AuthorReadModel existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
 
             if (existingAuthor != null)
             {
@@ -79,14 +77,13 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpDelete]
         [Route("authors/{id}")]
-        public ActionResult Remove(int id)
+        public ActionResult DeleteAuthor(int id)
         {
             var existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
 
             if (existingAuthor != null)
             {
-                var authorToRemove = _authors.Single(r => r.Id == id);
-                _authors.Remove(authorToRemove);
+                _authors.Remove(existingAuthor);
             }
             else
             {
