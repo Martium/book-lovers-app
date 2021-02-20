@@ -79,7 +79,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult DeleteAuthor(int id)
         {
-            var existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
+            AuthorReadModel existingAuthor = _authors.FirstOrDefault(c => c.Id == id);
 
             if (existingAuthor != null)
             {
