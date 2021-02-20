@@ -4,7 +4,7 @@
     "ApiHost": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "v1/bookLovers/authors",
+      "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
