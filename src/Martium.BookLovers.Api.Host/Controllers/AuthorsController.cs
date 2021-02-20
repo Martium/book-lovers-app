@@ -32,7 +32,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             if (author == null)
             {
-                return NotFound("NotFound");
+                return NotFound("authorNotFound");
             }
 
             return Ok(author);
@@ -69,7 +69,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
             }
             else
             {
-                return NotFound("NotFound");
+                return NotFound("authorNotFound");
             }
 
             return Ok();
@@ -87,7 +87,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
             }
             else
             {
-                return NotFound("NotFound");
+                return NotFound("authorNotFound");
             }
 
             return NoContent();
