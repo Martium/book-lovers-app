@@ -32,10 +32,40 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Route("books")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetBookList()
+        [Route("books/{authorsId}")]
+        public ActionResult<IEnumerable<AuthorReadModel>> GetAllAuthorBooks(int authorsId)
         {
-            return Ok(_books);
+            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == authorsId);
+
+            if (author == null)
+            {
+                return NotFound("author not found");
+            }
+
+            var authorBooks = _books.FindAll(c => c.AuthorId == authorsId);
+
+            return Ok(authorBooks);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("books/{authorsId}/{bookId}")]
+        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthorBook(int authorsId, int bookId)
+        {
+            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == authorsId);
+            BookReadModel authorBook = _books.FirstOrDefault(y => y.Id == bookId);
+
+            if (author == null)
+            {
+                return NotFound("author not found");
+            }
+
+            if (authorBook == null)
+            {
+                return NotFound("author book not found");
+            }
+
+            return Ok(authorBook);
         }
     }
 }
