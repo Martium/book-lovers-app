@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Martium.BookLovers.Api.Contracts.Response
 {
-    class BookReadModel
+    public class BookReadModel
     {
         public int Id { get; set; }
         public int AuthorId { get; set; }
