@@ -12,60 +12,42 @@ namespace Martium.BookLovers.Api.Host.Controllers
     [Route("v1/bookLovers")]
     public class BooksController : ControllerBase
     {
-
-        private static List<AuthorReadModel> _authors = new List<AuthorReadModel>
+        public static List<BookReadModel> _books = new List<BookReadModel>()
         {
-            new AuthorReadModel { Id = 1, FirstName = "Joanne", LastName =  "Rowling" },
-            new AuthorReadModel { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
-        };
+            new BookReadModel { AuthorId = AuthorsController.Authors[0].Id, Id = 1, BookName = "Harry Potter and the Philosopher's Stone", ReleaseYear = 1997 },
+            new BookReadModel { AuthorId = AuthorsController.Authors[0].Id, Id = 2, BookName = "Harry Potter and the Chamber of Secrets", ReleaseYear =  1998 },
+            new BookReadModel { AuthorId = AuthorsController.Authors[0].Id, Id = 3, BookName = "Harry Potter and the Prisoner of Azkaban", ReleaseYear = 1999 },
 
-        private static List<BookReadModel> _books = new List<BookReadModel>()
-        {
-            new BookReadModel { AuthorId = _authors[0].Id, Id = 1, BookName = "Harry Potter and the Philosopher's Stone", ReleaseYear = new DateTime(1997,06, 26) },
-            new BookReadModel { AuthorId = _authors[0].Id, Id = 2, BookName = "Harry Potter and the Chamber of Secrets", ReleaseYear =  new DateTime(1998, 07, 2) },
-            new BookReadModel { AuthorId = _authors[0].Id, Id = 3, BookName = "Harry Potter and the Prisoner of Azkaban", ReleaseYear = new DateTime(1999, 07, 8) },
-
-            new BookReadModel { AuthorId = _authors[1].Id, Id = 1, BookName = "A Game of Thrones", ReleaseYear = new DateTime(1996,08,1) },
-            new BookReadModel { AuthorId = _authors[1].Id, Id = 2, BookName = "A Clash of Kings", ReleaseYear = new DateTime(1998,11,6) },
-            new BookReadModel { AuthorId = _authors[1].Id, Id = 3, BookName = "A Storm of Swords", ReleaseYear = new DateTime(2000,08,8) }
+            new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 4, BookName = "A Game of Thrones", ReleaseYear = 1996 },
+            new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 5, BookName = "A Clash of Kings", ReleaseYear = 1998 },
+            new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 6, BookName = "A Storm of Swords", ReleaseYear = 2000 }
         };
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Route("books/{authorsId}")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetAllAuthorBooks(int authorsId)
+        [Route("books")]
+        public ActionResult<IEnumerable<AuthorReadModel>> GetList([FromQuery] int? authorId)
         {
-            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == authorsId);
+            // nereikia autoriaus tikrinti ir reikia atsizvelgti i tai ar yra authorId ar nera ir atitinkamai
 
-            if (author == null)
-            {
-                return NotFound("author not found");
-            }
-
-            var authorBooks = _books.FindAll(c => c.AuthorId == authorsId);
+            var authorBooks = _books.FindAll(c => c.AuthorId == authorId);
 
             return Ok(authorBooks);
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Route("books/{authorsId}/{bookId}")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthorBook(int authorsId, int bookId)
+        [Route("books/{id}")]
+        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthorBook(int id)
         {
-            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == authorsId);
-            BookReadModel authorBook = _books.FirstOrDefault(y => y.Id == bookId);
+            BookReadModel book = _books.FirstOrDefault(y => y.Id == id);
 
-            if (author == null)
+            if (book == null)
             {
-                return NotFound("author not found");
+                return NotFound("bookNotFound");
             }
 
-            if (authorBook == null)
-            {
-                return NotFound("author book not found");
-            }
-
-            return Ok(authorBook);
+            return Ok(book);
         }
     }
 }
