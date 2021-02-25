@@ -32,7 +32,8 @@ namespace Martium.BookLovers.Api.Host.Controllers
             {
                 return Ok(Books);
             }
-            else if (!AuthorsController.Authors.Exists(c => c.Id == authorId))
+
+            if (!AuthorsController.Authors.Exists(c => c.Id == authorId))
             {
                 return NotFound("authorNotFound");
             }
