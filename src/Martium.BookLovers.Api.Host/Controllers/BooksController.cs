@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,33 @@ namespace Martium.BookLovers.Api.Host.Controllers
             }
 
             return Ok(book);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [Route("books/author/{authorId}")]
+        public ActionResult<AuthorReadModel> CreateAuthorBook(int authorId, [FromBody] BookModel book)
+        {
+            AuthorReadModel author = AuthorsController.Authors.FirstOrDefault(x => x.Id == authorId);
+
+            if (author == null)
+            {
+                return NotFound("authorNotFound");
+            }
+
+            int newBookId = Books.Max(x => x.Id) + 1;
+
+            var newBook = new BookReadModel()
+            {
+                AuthorId = authorId,
+                Id = newBookId,
+                BookName = book.BookName,
+                ReleaseYear = book.ReleaseYear
+            };
+
+            Books.Add(newBook);
+
+            return Ok(newBook);
         }
     }
 }
