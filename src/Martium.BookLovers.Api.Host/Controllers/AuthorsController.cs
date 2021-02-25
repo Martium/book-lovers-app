@@ -90,8 +90,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
                 return NotFound("authorNotFound");
             }
 
-            // delete author books first
-
+            BooksController.Books.RemoveAll(c => c.AuthorId == id);
             Authors.Remove(author);
 
             return NoContent();
