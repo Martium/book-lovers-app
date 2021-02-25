@@ -82,7 +82,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             Books.Add(newBook);
 
-            return Ok(newBook);
+            return CreatedAtAction(nameof(CreateAuthorBook), new {newBookId}, newBook);
         }
+
+        
     }
 }
