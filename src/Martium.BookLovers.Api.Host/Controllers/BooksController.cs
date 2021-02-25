@@ -85,6 +85,39 @@ namespace Martium.BookLovers.Api.Host.Controllers
             return CreatedAtAction(nameof(CreateAuthorBook), new {newBookId}, newBook);
         }
 
-        
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("books/{id}")]
+        public ActionResult<AuthorReadModel> UpdateAuthor([FromBody] BookModel updateModel, int id)
+        {
+            BookReadModel book = Books.FirstOrDefault(c => c.Id == id);
+
+            if (book == null)
+            {
+                return NotFound("bookNotFound");
+            }
+
+            book.BookName = updateModel.BookName;
+            book.ReleaseYear = updateModel.ReleaseYear;
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Route("books/{id}")]
+        public ActionResult DeleteBook(int id)
+        {
+            BookReadModel book = Books.FirstOrDefault(c => c.Id == id);
+
+            if (book == null)
+            {
+                return NotFound("bookNotFound");
+            }
+
+            Books.Remove(book);
+
+            return NoContent();
+        }
     }
 }
