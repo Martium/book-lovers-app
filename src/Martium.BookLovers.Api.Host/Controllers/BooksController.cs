@@ -35,12 +35,12 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             if (!AuthorsController.Authors.Exists(c => c.Id == authorId))
             {
-                return NotFound("authorNotFound");
+                return NoContent();
             }
 
-            List<BookReadModel> authorBooks = Books.FindAll(c => c.AuthorId == authorId);
+            List<BookReadModel> books = Books.FindAll(c => c.AuthorId == authorId);
 
-            return Ok(authorBooks);
+            return Ok(books);
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [Route("books/author/{authorId}")]
+        [Route("books")]
         public ActionResult<AuthorReadModel> CreateAuthorBook(int authorId, [FromBody] BookModel book)
         {
             AuthorReadModel author = AuthorsController.Authors.FirstOrDefault(x => x.Id == authorId);
