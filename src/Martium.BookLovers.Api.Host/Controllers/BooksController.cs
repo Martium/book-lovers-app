@@ -61,11 +61,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("books")]
-        public ActionResult<AuthorReadModel> CreateAuthorBook(int authorId, [FromBody] BookModel book)
+        public ActionResult<AuthorReadModel> CreateAuthorBook([FromBody] BookModel book)
         {
-            AuthorReadModel author = AuthorsController.Authors.FirstOrDefault(x => x.Id == authorId);
-
-            if (author == null)
+            if (!Books.Exists(c => c.AuthorId == book.AuthorId))
             {
                 return NotFound("authorNotFound");
             }
@@ -74,7 +72,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             var newBook = new BookReadModel()
             {
-                AuthorId = authorId,
+                AuthorId = book.AuthorId,
                 Id = newBookId,
                 BookName = book.BookName,
                 ReleaseYear = book.ReleaseYear
@@ -90,11 +88,21 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult<AuthorReadModel> UpdateAuthor([FromBody] BookModel updateModel, int id)
         {
+            if (!Books.Exists(c => c.AuthorId == updateModel.AuthorId))
+            {
+                return NotFound("authorNotFound");
+            }
+
             BookReadModel book = Books.FirstOrDefault(c => c.Id == id);
 
             if (book == null)
             {
                 return NotFound("bookNotFound");
+            }
+
+            if (book.AuthorId != updateModel.AuthorId)
+            {
+                return NotFound("authorBookIdNotFound"); //Todo need better error message
             }
 
             book.BookName = updateModel.BookName;
