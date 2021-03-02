@@ -12,7 +12,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
     [Route("v1/bookLovers")]
     public class AuthorsController : ControllerBase
     {
-        private static List<AuthorReadModel> _authors = new List<AuthorReadModel>
+        public static List<AuthorReadModel> Authors = new List<AuthorReadModel>
         {
             new AuthorReadModel { Id = 1, FirstName = "Joanne", LastName =  "Rowling" },
             new AuthorReadModel { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
@@ -21,17 +21,17 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthorsList()
+        public ActionResult<IEnumerable<AuthorReadModel>> GetList()
         {
-            return Ok(_authors);
+            return Ok(Authors);
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors/{id}")]
-        public ActionResult<AuthorReadModel> GetAuthor(int id)
+        public ActionResult<AuthorReadModel> GetById(int id)
         {
-            AuthorReadModel author = _authors.FirstOrDefault(x => x.Id == id);
+            AuthorReadModel author = Authors.FirstOrDefault(a => a.Id == id);
 
             if (author == null)
             {
@@ -44,28 +44,28 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("authors")]
-        public ActionResult<AuthorReadModel> CreateAuthor([FromBody] AuthorModel authorRequest)
+        public ActionResult<AuthorReadModel> Create([FromBody] AuthorModel authorRequest)
         {
-            int id = _authors.Max(x => x.Id) + 1;
+            int newId = Authors.Max(a => a.Id) + 1;
 
             var newAuthor = new AuthorReadModel()
             {
-                Id = id, 
+                Id = newId, 
                 FirstName = authorRequest.FirstName, 
                 LastName = authorRequest.LastName
             };
 
-            _authors.Add(newAuthor);
+            Authors.Add(newAuthor);
 
-            return CreatedAtAction(nameof(GetAuthor), new { id }, newAuthor);
+            return CreatedAtAction(nameof(GetById), new { id = newId }, newAuthor);
         }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors/{id}")]
-        public ActionResult<AuthorReadModel> UpdateAuthor([FromBody] AuthorModel authorUpdate, int id)
+        public ActionResult<AuthorReadModel> Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            AuthorReadModel author = _authors.FirstOrDefault(c => c.Id == id);
+            AuthorReadModel author = Authors.SingleOrDefault(a => a.Id == id);
 
             if (author == null)
             {
@@ -81,16 +81,15 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [Route("authors/{id}")]
-        public ActionResult DeleteAuthor(int id)
+        public ActionResult Delete(int id)
         {
-            AuthorReadModel author = _authors.FirstOrDefault(c => c.Id == id);
+            AuthorReadModel author = Authors.SingleOrDefault(a => a.Id == id);
 
-            if (author == null)
+            if (author != null)
             {
-                return NotFound("authorNotFound");
+                BooksController.Books.RemoveAll(c => c.AuthorId == id);
+                Authors.Remove(author);
             }
-
-            _authors.Remove(author);
 
             return NoContent();
         }
