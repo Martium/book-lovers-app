@@ -28,17 +28,12 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books")]
         public ActionResult<IEnumerable<AuthorReadModel>> GetList([FromQuery] int? authorId)
         {
-            if (authorId == null)
-            {
-                return Ok(Books);
-            }
+            List<BookReadModel> books = Books;
 
-            if (!AuthorsController.Authors.Exists(c => c.Id == authorId))
+            if (authorId.HasValue)
             {
-                return NoContent();
+                books = Books.FindAll(b => b.AuthorId == authorId);
             }
-
-            List<BookReadModel> books = Books.FindAll(c => c.AuthorId == authorId);
 
             return Ok(books);
         }
@@ -46,9 +41,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("books/{id}")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetAuthorBook(int id)
+        public ActionResult<IEnumerable<AuthorReadModel>> GetById(int id)
         {
-            BookReadModel book = Books.FirstOrDefault(y => y.Id == id);
+            BookReadModel book = Books.SingleOrDefault(b => b.Id == id);
 
             if (book == null)
             {
@@ -61,16 +56,16 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("books")]
-        public ActionResult<AuthorReadModel> CreateAuthorBook([FromBody] BookModel book)
+        public ActionResult<AuthorReadModel> Create([FromBody] BookModel book)
         {
-            if (!Books.Exists(c => c.AuthorId == book.AuthorId))
+            if (!AuthorsController.Authors.Exists(a => a.Id == book.AuthorId))
             {
                 return NotFound("authorNotFound");
             }
 
-            int newBookId = Books.Max(x => x.Id) + 1;
+            int newBookId = Books.Max(b => b.Id) + 1;
 
-            var newBook = new BookReadModel()
+            var newBook = new BookReadModel
             {
                 AuthorId = book.AuthorId,
                 Id = newBookId,
@@ -80,33 +75,29 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             Books.Add(newBook);
 
-            return CreatedAtAction(nameof(CreateAuthorBook), new {newBookId}, newBook);
+            return CreatedAtAction(nameof(GetById), new { id = newBookId }, newBook);
         }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("books/{id}")]
-        public ActionResult<AuthorReadModel> UpdateAuthor([FromBody] BookModel updateModel, int id)
+        public ActionResult<AuthorReadModel> Update(int id, [FromBody] BookModel updatedBook)
         {
-            if (!Books.Exists(c => c.AuthorId == updateModel.AuthorId))
+            if (!AuthorsController.Authors.Exists(a => a.Id == updatedBook.AuthorId))
             {
                 return NotFound("authorNotFound");
             }
 
-            BookReadModel book = Books.FirstOrDefault(c => c.Id == id);
+            BookReadModel book = Books.SingleOrDefault(b => b.Id == id);
 
             if (book == null)
             {
                 return NotFound("bookNotFound");
             }
 
-            if (book.AuthorId != updateModel.AuthorId)
-            {
-                return NotFound("authorBookIdNotFound"); //Todo need better error message
-            }
-
-            book.BookName = updateModel.BookName;
-            book.ReleaseYear = updateModel.ReleaseYear;
+            book.AuthorId = updatedBook.AuthorId;
+            book.BookName = updatedBook.BookName;
+            book.ReleaseYear = updatedBook.ReleaseYear;
 
             return Ok();
         }
@@ -116,14 +107,12 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult DeleteBook(int id)
         {
-            BookReadModel book = Books.FirstOrDefault(c => c.Id == id);
+            BookReadModel book = Books.SingleOrDefault(b => b.Id == id);
 
-            if (book == null)
+            if (book != null)
             {
-                return NotFound("bookNotFound");
+                Books.Remove(book);
             }
-
-            Books.Remove(book);
 
             return NoContent();
         }
