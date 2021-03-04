@@ -94,6 +94,9 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     UNIQUE(AuthorId, Id)
                   );
                 ";
+
+            SQLiteCommand createBookTableCommand = new SQLiteCommand(createBookTableQuery, dbConnection);
+            createBookTableCommand.ExecuteNonQuery();
         }
 
         private string GetDropTableQuery(string tableName)
