@@ -40,9 +40,11 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
                 CreateBookTable(dbConnection);
 
+#if DEBUG
                 FillDefaultInfoToBookLoversAuthorTable(dbConnection);
 
                 FillDefaultInfoToBookLoversBookTable(dbConnection);
+#endif
             }
         }
 
