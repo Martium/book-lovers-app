@@ -41,6 +41,8 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 CreateBookTable(dbConnection);
 
                 FillDefaultInfoToBookLoversAuthorTable(dbConnection);
+
+                FillDefaultInfoToBookLoversBookTable(dbConnection);
             }
         }
 
@@ -113,6 +115,25 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
             SQLiteCommand fillAuthorInfoCommand = new SQLiteCommand(fillInfoToAuthorTable, dbConnection);
             fillAuthorInfoCommand.ExecuteNonQuery();
+        }
+
+        private void FillDefaultInfoToBookLoversBookTable(SQLiteConnection dbConnection)
+        {
+            string fillInfoToBookTable =
+                $@"BEGIN TRANSACTION;
+	                INSERT INTO 'Book' 
+	                    VALUES (1, 1, 'Harry Potter and the Philosopher's Stone', 1997);
+	                INSERT INTO 'Book'
+                        VALUES (1, 2, 'Harry Potter and the Chamber of Secrets', '1988');
+                    INSERT INTO 'Book' 
+	                    VALUES (1, 3, 'Harry Potter and the Prisoner of Azkaban', '1999');
+                    INSERT INTO 'Book' 
+	                    VALUES (2, 4, 'A Game of Thrones', 1996);
+                    INSERT INTO 'Book' 
+	                    VALUES (2, 5, 'A Clash of Kings', 1988);
+                    INSERT INTO 'Book' 
+	                    VALUES (2, 6, 'A Storm of Swords', 2000);
+                COMMIT;";
         }
 
         private string GetDropTableQuery(string tableName)
