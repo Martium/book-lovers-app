@@ -65,13 +65,13 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
         private void CreateAuthorTable(SQLiteConnection dbConnection)
         {
-            string dropAuthorTableQuery = GetDropTableQuery("Author");
+            string dropAuthorTableQuery = GetDropTableQuery("Authors");
             SQLiteCommand dropAuthorTableCommand = new SQLiteCommand(dropAuthorTableQuery, dbConnection);
             dropAuthorTableCommand.ExecuteNonQuery();
 
             string createAuthorTableQuery =
                 $@"                  
-                  CREATE TABLE [Author] (
+                  CREATE TABLE [Authors] (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     [FirstName] [nvarchar]({AuthorSettings.Lengths.FirstName}) NOT NULL,
                     [LastName] [nvarchar]({AuthorSettings.Lengths.LastName}) NOT NULL,
@@ -85,19 +85,19 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
         private void CreateBookTable(SQLiteConnection dbConnection)
         {
-            string dropBookTableQuery = GetDropTableQuery("Book");
+            string dropBookTableQuery = GetDropTableQuery("Books");
             SQLiteCommand dropBookTableCommand = new SQLiteCommand(dropBookTableQuery,dbConnection);
             dropBookTableCommand.ExecuteNonQuery();
 
             string createBookTableQuery =
                 $@"                  
-                  CREATE TABLE [Book] (
-                    [AuthorId] [INTEGER] NOT NULL,
+                  CREATE TABLE [Books] (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    [AuthorId] [INTEGER] NOT NULL,
                     [BookName] [nvarchar]({BookSettings.Lengths.BookName}) NOT NULL,
                     [ReleaseYear] [INTEGER] NOT NULL,
                     FOREIGN KEY (AuthorId) REFERENCES Author (Id),
-                    UNIQUE(AuthorId, Id)
+                    UNIQUE(Id)
                   );
                 ";
 
@@ -109,10 +109,10 @@ namespace Martium.BookLovers.Api.Host.Repositories
         {
             string fillInfoToAuthorTable =
                 $@"BEGIN TRANSACTION;
-	                INSERT INTO 'Author' 
-	                    VALUES (1, 'Joanne', 'Rowling');
-	                INSERT INTO 'Author'
-                        VALUES (2, 'George', 'Raymond Richard Martin');
+	                INSERT INTO 'Authors' 
+	                    VALUES (NULL, 'Joanne', 'Rowling');
+	                INSERT INTO 'Authors'
+                        VALUES (NULL, 'George', 'Raymond Richard Martin');
                 COMMIT;";
 
             SQLiteCommand fillAuthorInfoCommand = new SQLiteCommand(fillInfoToAuthorTable, dbConnection);
@@ -123,18 +123,18 @@ namespace Martium.BookLovers.Api.Host.Repositories
         {
             string fillInfoToBookTable =
                 $@"BEGIN TRANSACTION;
-	                INSERT INTO 'Book' 
-	                    VALUES (1, 1, 'Harry Potter and the Philosopher's Stone', 1997);
-	                INSERT INTO 'Book'
-                        VALUES (1, 2, 'Harry Potter and the Chamber of Secrets', '1988');
-                    INSERT INTO 'Book' 
-	                    VALUES (1, 3, 'Harry Potter and the Prisoner of Azkaban', '1999');
-                    INSERT INTO 'Book' 
-	                    VALUES (2, 4, 'A Game of Thrones', 1996);
-                    INSERT INTO 'Book' 
-	                    VALUES (2, 5, 'A Clash of Kings', 1988);
-                    INSERT INTO 'Book' 
-	                    VALUES (2, 6, 'A Storm of Swords', 2000);
+	                INSERT INTO 'Books' 
+	                    VALUES (NULL, 1, 'Harry Potter and the Philosopher's Stone', 1997);
+	                INSERT INTO 'Books'
+                        VALUES (NULL, 1, 'Harry Potter and the Chamber of Secrets', '1988');
+                    INSERT INTO 'Books' 
+	                    VALUES (NULL, 1, 'Harry Potter and the Prisoner of Azkaban', '1999');
+                    INSERT INTO 'Books' 
+	                    VALUES (NULL, 2, 'A Game of Thrones', 1996);
+                    INSERT INTO 'Books' 
+	                    VALUES (NULL, 2, 'A Clash of Kings', 1988);
+                    INSERT INTO 'Books' 
+	                    VALUES (NULL, 2, 'A Storm of Swords', 2000);
                 COMMIT;";
         }
 
