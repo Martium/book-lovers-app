@@ -2,6 +2,7 @@
 using System.Linq;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Api.Host.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,12 +19,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
             new AuthorReadModel { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
         };
 
+        private readonly BookLoversRepository _authors = new BookLoversRepository();
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors")]
         public ActionResult<IEnumerable<AuthorReadModel>> GetList()
         {
-            return Ok(Authors);
+            return Ok(_authors.GetAuthors());
         }
 
         [HttpGet]
