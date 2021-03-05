@@ -40,6 +40,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
                 CreateBookTable(dbConnection);
 
+                FillDefaultInfoToBookLoversAuthorTable(dbConnection);
             }
         }
 
@@ -98,6 +99,20 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
             SQLiteCommand createBookTableCommand = new SQLiteCommand(createBookTableQuery, dbConnection);
             createBookTableCommand.ExecuteNonQuery();
+        }
+
+        private void FillDefaultInfoToBookLoversAuthorTable(SQLiteConnection dbConnection)
+        {
+            string fillInfoToAuthorTable =
+                $@"BEGIN TRANSACTION;
+	                INSERT INTO 'Author' 
+	                    VALUES (1, 'Joanne', 'Rowling');
+	                INSERT INTO 'Author'
+                        VALUES (2, 'George', 'Raymond Richard Martin');
+                COMMIT;";
+
+            SQLiteCommand fillAuthorInfoCommand = new SQLiteCommand(fillInfoToAuthorTable, dbConnection);
+            fillAuthorInfoCommand.ExecuteNonQuery();
         }
 
         private string GetDropTableQuery(string tableName)
