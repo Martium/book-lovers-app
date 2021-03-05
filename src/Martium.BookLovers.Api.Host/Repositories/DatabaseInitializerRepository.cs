@@ -67,7 +67,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
             string createAuthorTableQuery =
                 $@"                  
                   CREATE TABLE [Author] (
-                    [Id] [INTEGER] NOT NULL,
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     [FirstName] [nvarchar]({AuthorSettings.Lengths.FirstName}) NOT NULL,
                     [LastName] [nvarchar]({AuthorSettings.Lengths.LastName}) NOT NULL,
                     UNIQUE(Id)
@@ -88,9 +88,10 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 $@"                  
                   CREATE TABLE [Book] (
                     [AuthorId] [INTEGER] NOT NULL,
-                    [Id] [INTEGER] NOT NULL,
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     [BookName] [nvarchar]({BookSettings.Lengths.BookName}) NOT NULL,
                     [ReleaseYear] [INTEGER] NOT NULL,
+                    FOREIGN KEY (AuthorId) REFERENCES Author (Id),
                     UNIQUE(AuthorId, Id)
                   );
                 ";
