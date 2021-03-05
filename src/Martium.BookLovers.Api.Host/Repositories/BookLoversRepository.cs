@@ -16,7 +16,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
                 string getExistingAuthors =
                     @"SELECT *
-                      FROM Author
+                      FROM Authors
                     ";
 
                 IEnumerable<AuthorReadModel> getAllAuthors = dbConnection.Query<AuthorReadModel>(getExistingAuthors);
