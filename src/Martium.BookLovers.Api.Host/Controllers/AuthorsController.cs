@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Api.Host.Constants;
 using Martium.BookLovers.Api.Host.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -59,17 +61,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            AuthorReadModel author = Authors.SingleOrDefault(a => a.Id == id);
+            bool newAuthor = _authors.UpdateAuthorById(id, authorUpdate);
 
-            if (author == null)
+            if (newAuthor == false)
             {
                 return NotFound("authorNotFound");
             }
 
-            author.FirstName = authorUpdate.FirstName;
-            author.LastName = authorUpdate.LastName;
-
-            return Ok(author);
+            return Ok(newAuthor);
         }
 
         [HttpDelete]
