@@ -16,12 +16,12 @@ namespace Martium.BookLovers.Api.Host.Repositories
             {
                 dbConnection.Open();
 
-                string getExistingAuthors =
+                string getExistingAuthorsCommand =
                     @"SELECT *
                       FROM Authors
                     ";
 
-                IEnumerable<AuthorReadModel> getAllAuthors = dbConnection.Query<AuthorReadModel>(getExistingAuthors);
+                IEnumerable<AuthorReadModel> getAllAuthors = dbConnection.Query<AuthorReadModel>(getExistingAuthorsCommand);
                 return getAllAuthors.ToList();
             }
         }
@@ -32,7 +32,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
             {
                 dbConnection.Open();
 
-                string getExistingAuthor =
+                string getExistingAuthorCommand =
                     @"SELECT
                         A.Id , A.FirstName , A.LastName
                       FROM Authors A
@@ -47,10 +47,10 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
                 try
                 {
-                    AuthorReadModel getAuthor = dbConnection.QuerySingle<AuthorReadModel>(getExistingAuthor, queryParameter);
+                    AuthorReadModel getAuthor = dbConnection.QuerySingle<AuthorReadModel>(getExistingAuthorCommand, queryParameter);
                     return getAuthor;
                 }
-                catch (Exception e)
+                catch 
                 {
                     AuthorReadModel authorNotExists = null;
                     return authorNotExists;
@@ -64,14 +64,14 @@ namespace Martium.BookLovers.Api.Host.Repositories
             {
                 dbConnection.Open();
 
-                string getBiggestIdNumber =
+                string getBiggestIdNumberCommand =
                     @"SELECT
                         MAX(A.Id)
                       FROM Authors A
                      ";
 
 
-                int? biggestAuthorId = dbConnection.QuerySingle<int?>(getBiggestIdNumber) ?? 0;
+                int? biggestAuthorId = dbConnection.QuerySingle<int?>(getBiggestIdNumberCommand) ?? 0;
 
                 return biggestAuthorId.Value + 1;
             }
@@ -85,21 +85,51 @@ namespace Martium.BookLovers.Api.Host.Repositories
             {
                 dbConnection.Open();
 
-                string createNewAuthor =
+                string createNewAuthorCommand =
                     @"INSERT INTO 'Authors'
                         VALUES (
-                            @Id, @FirstName, @LastName 
+                            @Id , @FirstName , @LastName 
                         )
-                     ";
+                     "; 
 
                 object queryParameters = new
                 {
                     Id = newAuthorId, newAuthor.FirstName, newAuthor.LastName
                 };
 
-                int affectedRows = dbConnection.Execute(createNewAuthor, queryParameters);
+                int affectedRows = dbConnection.Execute(createNewAuthorCommand, queryParameters);
 
                 return affectedRows == 1;
+            }
+        }
+
+        public bool UpdateAuthorById(int id, AuthorModel updateAuthor)
+        {
+            using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
+            {
+                dbConnection.Open();
+
+                string updateAuthorCommand =
+                    @"UPDATE 'AUTHORS'
+                        SET FirstName = @FirstName , LastName = @LastName
+                      WHERE Id = @Id
+                     ";
+
+                object queryParameters = new
+                {
+                    Id = id, updateAuthor.FirstName, updateAuthor.LastName
+                };
+
+                try
+                {
+                    int affectedRows = dbConnection.Execute(updateAuthorCommand, queryParameters);
+                    return affectedRows == 1;
+                }
+                catch
+                {
+                    bool authorExists = false;
+                    return authorExists;
+                }
 
             }
         }
