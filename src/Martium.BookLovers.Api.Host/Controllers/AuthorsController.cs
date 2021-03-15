@@ -49,18 +49,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors")]
         public ActionResult<AuthorReadModel> Create([FromBody] AuthorModel authorRequest)
         {
-            int newId = Authors.Max(a => a.Id) + 1;
+            var newAuthor = _authors.CreateNewAuthor(authorRequest);
 
-            var newAuthor = new AuthorReadModel()
-            {
-                Id = newId, 
-                FirstName = authorRequest.FirstName, 
-                LastName = authorRequest.LastName
-            };
-
-            Authors.Add(newAuthor);
-
-            return CreatedAtAction(nameof(GetById), new { id = newId }, newAuthor);
+            return CreatedAtAction(nameof(Create), newAuthor);
         }
 
         [HttpPut]
