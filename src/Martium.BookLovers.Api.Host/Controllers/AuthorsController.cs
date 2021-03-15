@@ -51,9 +51,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors")]
         public ActionResult<AuthorReadModel> Create([FromBody] AuthorModel authorRequest)
         {
-            var newAuthor = _authors.CreateNewAuthor(authorRequest);
+            bool isAuthorCreated = _authors.CreateNewAuthor(authorRequest);
 
-            return CreatedAtAction(nameof(Create), newAuthor);
+            return CreatedAtAction(nameof(Create), isAuthorCreated);
         }
 
         [HttpPut]
@@ -61,14 +61,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            bool newAuthor = _authors.UpdateAuthorById(id, authorUpdate);
+            bool isAuthorUpdatable = _authors.UpdateAuthorById(id, authorUpdate);
 
-            if (newAuthor == false)
+            if (isAuthorUpdatable == false)
             {
                 return NotFound("authorNotFound");
             }
 
-            return Ok(newAuthor);
+            return Ok(isAuthorUpdatable);
         }
 
         [HttpDelete]
@@ -76,12 +76,11 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult Delete(int id)
         {
-            AuthorReadModel author = Authors.SingleOrDefault(a => a.Id == id);
+            bool isAuthorDeletable = _authors.DeleteAuthorById(id);
 
-            if (author != null)
+            if (isAuthorDeletable == false)
             {
-                BooksController.Books.RemoveAll(c => c.AuthorId == id);
-                Authors.Remove(author);
+                return NotFound("authorNotFound");
             }
 
             return NoContent();
