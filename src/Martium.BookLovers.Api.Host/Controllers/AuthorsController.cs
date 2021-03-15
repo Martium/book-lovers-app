@@ -34,14 +34,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetById(int id)
         {
-            AuthorReadModel author = Authors.FirstOrDefault(a => a.Id == id);
+            var getAuthor = _authors.GetAuthorById(id);
 
-            if (author == null)
+            if (getAuthor == null)
             {
                 return NotFound("authorNotFound");
             }
 
-            return Ok(author);
+            return Ok(getAuthor);
         }
 
         [HttpPost]
