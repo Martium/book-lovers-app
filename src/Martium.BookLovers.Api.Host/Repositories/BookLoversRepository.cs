@@ -154,7 +154,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 try
                 {
                     int affectedRows = dbConnection.Execute(deleteAuthorCommand, queryParameters);
-                    return affectedRows == 0;
+                    return affectedRows == 1;
                 }
                 catch 
                 {
