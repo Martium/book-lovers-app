@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using Dapper;
@@ -127,8 +126,8 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 }
                 catch
                 {
-                    bool authorExists = false;
-                    return authorExists;
+                    bool IsAuthorExists = false;
+                    return IsAuthorExists;
                 }
             }
         }
@@ -158,8 +157,8 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 }
                 catch 
                 {
-                    bool authorExists = false;
-                    return authorExists;
+                    bool isAuthorExists = false;
+                    return isAuthorExists;
                 }
             }
         }
