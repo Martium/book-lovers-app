@@ -96,7 +96,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     [AuthorId] [INTEGER] NOT NULL,
                     [BookName] [nvarchar]({BookLoversSettings.BookLengths.BookName}) NOT NULL,
                     [ReleaseYear] [INTEGER] NOT NULL,
-                    FOREIGN KEY (AuthorId) REFERENCES Author (Id),
+                    FOREIGN KEY (AuthorId) REFERENCES Author (Id) ON DELETE CASCADE,
                     UNIQUE(Id)
                   );
                 ";
