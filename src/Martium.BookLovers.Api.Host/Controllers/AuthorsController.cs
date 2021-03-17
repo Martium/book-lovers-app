@@ -73,12 +73,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult Delete(int id)
         {
-            bool isAuthorDeletable = _authors.DeleteAuthorById(id);
-
-            if (isAuthorDeletable == false)
-            {
-                return NotFound("authorNotFound");
-            }
+            _authors.DeleteAuthorById(id);
 
             return NoContent();
         }

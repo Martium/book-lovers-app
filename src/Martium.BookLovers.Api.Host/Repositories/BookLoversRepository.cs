@@ -132,7 +132,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
             }
         }
 
-        public bool DeleteAuthorById(int id)
+        public void DeleteAuthorById(int id)
         {
             using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
             {
@@ -149,16 +149,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     Id = id
                 };
 
-                try
-                {
-                    int affectedRows = dbConnection.Execute(deleteAuthorCommand, queryParameters);
-                    return affectedRows == 1;
-                }
-                catch 
-                {
-                    bool isAuthorExists = false;
-                    return isAuthorExists;
-                }
+                dbConnection.Execute(deleteAuthorCommand, queryParameters);
             }
         }
 
