@@ -18,14 +18,16 @@ namespace Martium.BookLovers.Api.Host.Controllers
             new AuthorReadModel { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
         };
 
-        private readonly BookLoversRepository _authors = new BookLoversRepository();
+        private readonly AuthorRepository _authorRepository = new AuthorRepository();
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("authors")]
         public ActionResult<IEnumerable<AuthorReadModel>> GetList()
         {
-            return Ok(_authors.GetAuthors());
+            List<AuthorReadModel> authors = _authorRepository.GetAuthors();
+
+            return Ok(authors);
         }
 
         [HttpGet]
@@ -33,14 +35,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetById(int id)
         {
-            var getAuthor = _authors.GetAuthorById(id);
+            var author = _authorRepository.GetAuthorById(id);
 
-            if (getAuthor == null)
+            if (author == null)
             {
                 return NotFound("authorNotFound");
             }
 
-            return Ok(getAuthor);
+            return Ok(author);
         }
 
         [HttpPost]
@@ -48,9 +50,11 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors")]
         public ActionResult<AuthorReadModel> Create([FromBody] AuthorModel authorRequest)
         {
-            bool isAuthorCreated = _authors.CreateNewAuthor(authorRequest);
+            int id = _authorRepository.CreateNewAuthor(authorRequest);
 
-            return CreatedAtAction(nameof(Create), isAuthorCreated);
+            var newAuthor = _authorRepository.GetAuthorById(id);
+
+            return CreatedAtAction(nameof(GetById), new { id }, newAuthor);  
         }
 
         [HttpPut]
@@ -58,14 +62,20 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            bool isAuthorUpdatable = _authors.UpdateAuthorById(id, authorUpdate);
+            // Get authori by id if not found return not found error
 
-            if (isAuthorUpdatable == false)
+            // updated
+
+            _authorRepository.UpdateAuthorById(id, authorUpdate);
+
+            /*if (isAuthorUpdatable == false)
             {
                 return NotFound("authorNotFound");
-            }
+            }*/
 
-            return Ok(isAuthorUpdatable);
+            // get author by id and return in OK
+
+            //return Ok(isAuthorUpdatable);
         }
 
         [HttpDelete]
@@ -73,7 +83,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult Delete(int id)
         {
-            _authors.DeleteAuthorById(id);
+            _authorRepository.DeleteAuthorById(id);
 
             return NoContent();
         }
