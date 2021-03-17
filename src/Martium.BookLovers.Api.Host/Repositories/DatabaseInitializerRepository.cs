@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Data.SQLite;
-using System.Linq;
-using System.Threading.Tasks;
 using Martium.BookLovers.Api.Host.Constants;
 
 namespace Martium.BookLovers.Api.Host.Repositories
@@ -96,7 +92,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     [AuthorId] [INTEGER] NOT NULL,
                     [BookName] [nvarchar]({BookLoversSettings.BookLengths.BookName}) NOT NULL,
                     [ReleaseYear] [INTEGER] NOT NULL,
-                    FOREIGN KEY (AuthorId) REFERENCES Author (Id) ON DELETE CASCADE,
+                    FOREIGN KEY (AuthorId) REFERENCES Authors (Id) ON DELETE CASCADE,
                     UNIQUE(Id)
                   );
                 ";
@@ -124,7 +120,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
             string fillInfoToBookTable =
                 $@"BEGIN TRANSACTION;
 	                INSERT INTO 'Books' 
-	                    VALUES (NULL, 1, 'Harry Potter and the Philosopher's Stone', 1997);
+	                    VALUES (NULL, 1, 'Harry Potter and the Philosopher''s Stone', 1997);
 	                INSERT INTO 'Books'
                         VALUES (NULL, 1, 'Harry Potter and the Chamber of Secrets', '1988');
                     INSERT INTO 'Books' 
@@ -136,6 +132,9 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     INSERT INTO 'Books' 
 	                    VALUES (NULL, 2, 'A Storm of Swords', 2000);
                 COMMIT;";
+
+            SQLiteCommand fillInfoToBookTableCommand = new SQLiteCommand(fillInfoToBookTable, dbConnection);
+            fillInfoToBookTableCommand.ExecuteNonQuery();
         }
 
         private string GetDropTableQuery(string tableName)

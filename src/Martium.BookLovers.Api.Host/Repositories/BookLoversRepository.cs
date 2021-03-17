@@ -139,10 +139,9 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 dbConnection.Open();
 
                 string deleteAuthorCommand =
-                    @"DELETE 'Authors'
+                    @"DELETE 
+                      FROM 'Authors'
                       WHERE Id = @Id
-                      DELETE 'Books'
-                      WHERE AuthorId = @Id  
                      ";
 
                 object queryParameters = new
