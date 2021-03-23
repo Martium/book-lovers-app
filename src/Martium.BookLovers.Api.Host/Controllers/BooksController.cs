@@ -114,12 +114,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult DeleteBook(int id)
         {
-            BookReadModel book = Books.SingleOrDefault(b => b.Id == id);
-
-            if (book != null)
-            {
-                Books.Remove(book);
-            }
+            _books.DeleteBookById(id);
 
             return NoContent();
         }
