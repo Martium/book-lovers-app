@@ -29,14 +29,12 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetById(int id)
         {
-            bool isIdExists = _authorRepository.CheckAuthorId(id);
+            AuthorReadModel author = _authorRepository.GetAuthorById(id);
 
-            if (!isIdExists)
+            if (author == null)
             {
                 return NotFound("authorNotFound");
             }
-
-            AuthorReadModel author = _authorRepository.GetAuthorById(id);
 
             return Ok(author);
         }

@@ -21,14 +21,8 @@ namespace Martium.BookLovers.Api.Host.Controllers
         {
             if (authorId.HasValue)
             {
-                bool isAuthorIdExists = _books.CheckAuthorId(authorId.Value);
-
-                if (!isAuthorIdExists)
-                {
-                    return NotFound("authorNotFound");
-                }
-
-                List<BookReadModel> authorsBooks = _books.GetAllAuthorsBooks(authorId.Value);
+                List<BookReadModel> authorsBooks = _books.GetAllAuthorsBooks(authorId.Value)
+                    .FindAll(a => a.AuthorId == authorId.Value);
 
                 return Ok(authorsBooks);
             }
@@ -42,14 +36,12 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult<BookReadModel> GetById(int id)
         {
-            bool isBookIdExists = _books.CheckBookId(id);
+            BookReadModel book = _books.GetBookById(id);
 
-            if (!isBookIdExists)
+            if (book == null)
             {
                 return NotFound("bookNotFound");
             }
-
-            BookReadModel book = _books.GetBookById(id);
             return Ok(book);
         }
 
@@ -58,16 +50,16 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books")]
         public ActionResult<AuthorReadModel> Create([FromBody] BookModel bookRequest)
         {
-            bool isAuthorIdExists = _books.CheckAuthorId(bookRequest.AuthorId);
+            BookReadModel bookByAuthorId = _books.CheckBookByAuthorId(bookRequest.AuthorId);
 
-            if (!isAuthorIdExists)
+            if (bookByAuthorId == null)
             {
                 return NotFound("authorNotFound");
             }
 
             int id = _books.CreateNewBook(bookRequest);
 
-            BookReadModel newBook = _books.GetBookById(id);
+            BookReadModel newBook = _books.GetBookById(id); // nesugalvoju kaip viena karta saukt repositorija
 
             return CreatedAtAction(nameof(GetById), new { id }, newBook);
         }
@@ -77,24 +69,23 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult<AuthorReadModel> Update(int id, [FromBody] BookModel updateBook)
         {
-            bool isAuthorIdExists = _books.CheckAuthorId(updateBook.AuthorId);
+            BookReadModel bookByAuthorId = _books.CheckBookByAuthorId(updateBook.AuthorId);
 
-            if (!isAuthorIdExists)
+            if (bookByAuthorId == null)
             {
                 return NotFound("authorNotFound");
             }
 
-            bool isBookIdExists = _books.CheckBookId(id);
+            BookReadModel bookById = _books.GetBookById(id); // nesugalvoju kaip viena karta saukt repositorija
 
-            if (!isBookIdExists)
+            if (bookById == null)
             {
                 return NotFound("bookNotFound");
             }
 
             _books.UpdateBookById(id, updateBook);
-
-            BookReadModel updatedBook = _books.GetBookById(id);
-            return Ok(updatedBook);
+            
+            return Ok(bookById);
         }
 
         [HttpDelete]

@@ -66,7 +66,7 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     Id = id
                 };
 
-                BookReadModel getBook = dbConnection.QuerySingle<BookReadModel>(getExistingBookCommand, queryParameter);
+                BookReadModel getBook = dbConnection.QuerySingleOrDefault<BookReadModel>(getExistingBookCommand, queryParameter);
                 return getBook;
             }
         }
@@ -138,35 +138,27 @@ namespace Martium.BookLovers.Api.Host.Repositories
             }
         }
 
-        public bool CheckAuthorId(int authorId)
+        public BookReadModel CheckBookByAuthorId(int authorId)
         {
             using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
             {
                 dbConnection.Open();
 
-                string chechAuthorIdCommand =
+                string getExistingBookCommand =
                     @"SELECT
-                        B.AuthorId
+                        B.Id , B.AuthorId, B.BookName , B.ReleaseYear
                       FROM Books B
                       WHERE
-                        EXISTS (
-                            SELECT
-                                1
-                            FROM
-                                Books
-                            WHERE
-                                AuthorId = @AuthorId
-                        );
+                        B.AuthorId = @AuthorId;
                      ";
 
-                object queryParameters = new
+                object queryParameter = new
                 {
                     AuthorId = authorId
                 };
 
-                bool isIdExists = dbConnection.ExecuteScalar<bool>(chechAuthorIdCommand, queryParameters);
-
-                return isIdExists;
+                BookReadModel getBook = dbConnection.QuerySingleOrDefault<BookReadModel>(getExistingBookCommand, queryParameter);
+                return getBook;
             }
         }
 
