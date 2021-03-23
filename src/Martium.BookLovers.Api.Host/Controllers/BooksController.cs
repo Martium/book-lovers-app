@@ -2,6 +2,7 @@
 using System.Linq;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Api.Host.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,18 +24,28 @@ namespace Martium.BookLovers.Api.Host.Controllers
             new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 6, BookName = "A Storm of Swords", ReleaseYear = 2000 }
         };
 
+        private readonly BookRepository _books = new BookRepository();
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("books")]
         public ActionResult<IEnumerable<AuthorReadModel>> GetList([FromQuery] int? authorId)
         {
-            List<BookReadModel> books = Books;
-
             if (authorId.HasValue)
             {
-                books = Books.FindAll(b => b.AuthorId == authorId);
+                bool isAuthorIdExists = _books.CheckAuthorId(authorId.Value);
+
+                if (!isAuthorIdExists)
+                {
+                    return NotFound("authorNotFound");
+                }
+
+                List<BookReadModel> authorsBooks = _books.GetAuthorsBooks(authorId.Value);
+
+                return Ok(authorsBooks);
             }
 
+            List<BookReadModel> books = _books.GetBooks();
             return Ok(books);
         }
 
