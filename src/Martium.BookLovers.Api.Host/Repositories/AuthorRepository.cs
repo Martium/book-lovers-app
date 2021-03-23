@@ -44,16 +44,8 @@ namespace Martium.BookLovers.Api.Host.Repositories
                     Id = id
                 };
 
-                try
-                {
-                    AuthorReadModel getAuthor = dbConnection.QuerySingle<AuthorReadModel>(getExistingAuthorCommand, queryParameter);
-                    return getAuthor;
-                }
-                catch 
-                {
-                    AuthorReadModel authorNotExists = null;
-                    return authorNotExists;
-                }
+                AuthorReadModel getAuthor = dbConnection.QuerySingle<AuthorReadModel>(getExistingAuthorCommand, queryParameter);
+                return getAuthor;
             }
         }
 
