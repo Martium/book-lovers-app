@@ -119,6 +119,27 @@ namespace Martium.BookLovers.Api.Host.Repositories
             }
         }
 
+        public void DeleteBookById(int id)
+        {
+            using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
+            {
+                dbConnection.Open();
+
+                string deleteBookCommand =
+                    @"DELETE 
+                      FROM 'Books'
+                      WHERE Id = @Id;
+                     ";
+
+                object queryParameters = new
+                {
+                    Id = id
+                };
+
+                dbConnection.Execute(deleteBookCommand, queryParameters);
+            }
+        }
+
         public bool CheckAuthorId(int authorId)
         {
             using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
