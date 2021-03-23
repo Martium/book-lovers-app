@@ -35,12 +35,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> GetById(int id)
         {
-            var author = _authorRepository.GetAuthorById(id);
+            bool isIdExists = _authorRepository.CheckAuthorId(id);
 
-            if (author == null)
+            if (!isIdExists)
             {
                 return NotFound("authorNotFound");
             }
+
+            var author = _authorRepository.GetAuthorById(id);
 
             return Ok(author);
         }
@@ -54,7 +56,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             var newAuthor = _authorRepository.GetAuthorById(id);
 
-            return CreatedAtAction(nameof(GetById), new { id }, newAuthor);  
+            return CreatedAtAction(nameof(GetById), new { id }, newAuthor);
         }
 
         [HttpPut]
@@ -62,21 +64,20 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            // Get authori by id if not found return not found error
+            bool isIdExists = _authorRepository.CheckAuthorId(id);
 
-            // updated
+            if (!isIdExists)
+            {
+                return NotFound("authorNotFound");
+            }
 
             _authorRepository.UpdateAuthorById(id, authorUpdate);
 
-            /*if (isAuthorUpdatable == false)
-            {
-                return NotFound("authorNotFound");
-            }*/
+            var updatedAuthorInfo = _authorRepository.GetAuthorById(id);
 
-            // get author by id and return in OK
+            return Ok(updatedAuthorInfo);
 
-            //return Ok(isAuthorUpdatable);
-        }
+        }           
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
