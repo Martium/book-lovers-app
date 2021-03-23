@@ -42,7 +42,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
                 return NotFound("authorNotFound");
             }
 
-            var author = _authorRepository.GetAuthorById(id);
+            AuthorReadModel author = _authorRepository.GetAuthorById(id);
 
             return Ok(author);
         }
@@ -54,7 +54,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         {
             int id = _authorRepository.CreateNewAuthor(authorRequest);
 
-            var newAuthor = _authorRepository.GetAuthorById(id);
+            AuthorReadModel newAuthor = _authorRepository.GetAuthorById(id);
 
             return CreatedAtAction(nameof(GetById), new { id }, newAuthor);
         }
@@ -73,10 +73,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
 
             _authorRepository.UpdateAuthorById(id, authorUpdate);
 
-            var updatedAuthorInfo = _authorRepository.GetAuthorById(id);
+            AuthorReadModel updatedAuthorInfo = _authorRepository.GetAuthorById(id);
 
             return Ok(updatedAuthorInfo);
-
         }           
 
         [HttpDelete]
