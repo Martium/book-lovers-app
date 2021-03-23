@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Threading.Tasks;
+using Martium.BookLovers.Api.Contracts.Request;
 
 namespace Martium.BookLovers.Api.Host.Repositories
 {
@@ -69,6 +70,31 @@ namespace Martium.BookLovers.Api.Host.Repositories
 
                 BookReadModel getBook = dbConnection.QuerySingle<BookReadModel>(getExistingBookCommand, queryParameter);
                 return getBook;
+            }
+        }
+
+        public int CreateNewBook(BookModel newBook)
+        {
+            using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
+            {
+                dbConnection.Open();
+
+                string createNewBookCommand =
+                    @"INSERT INTO 'Books'
+                       (AuthorId, BookName, ReleaseYear)
+                        VALUES (
+                           @AuthorId , @BookName, @ReleaseYear 
+                        );
+                      SELECT last_insert_rowid();
+                     ";
+
+                object queryParameters = new
+                {
+                    newBook.AuthorId, newBook.BookName, newBook.ReleaseYear
+                };
+
+                int id = dbConnection.ExecuteScalar<int>(createNewBookCommand, queryParameters);
+                return id;
             }
         }
 
