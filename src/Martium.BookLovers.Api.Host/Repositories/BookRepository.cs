@@ -1,10 +1,8 @@
 ﻿using Dapper;
 using Martium.BookLovers.Api.Contracts.Response;
-using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
-using System.Threading.Tasks;
 using Martium.BookLovers.Api.Contracts.Request;
 
 namespace Martium.BookLovers.Api.Host.Repositories
