@@ -98,6 +98,27 @@ namespace Martium.BookLovers.Api.Host.Repositories
             }
         }
 
+        public void UpdateBookById(int id, BookModel updateBook)
+        {
+            using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
+            {
+                dbConnection.Open();
+
+                string updateAuthorCommand =
+                    @"UPDATE 'Books'
+                        SET AuthorId = @AuthorId , BookName = @BookName , ReleaseYear = @ReleaseYear
+                      WHERE Id = @Id;
+                     ";
+
+                object queryParameters = new
+                {
+                    Id = id, updateBook.AuthorId, updateBook.BookName, updateBook.ReleaseYear
+                };
+
+                dbConnection.Execute(updateAuthorCommand, queryParameters);
+            }
+        }
+
         public bool CheckAuthorId(int authorId)
         {
             using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
