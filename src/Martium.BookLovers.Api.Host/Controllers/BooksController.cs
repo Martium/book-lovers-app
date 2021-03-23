@@ -29,7 +29,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("books")]
-        public ActionResult<IEnumerable<AuthorReadModel>> GetList([FromQuery] int? authorId)
+        public ActionResult<AuthorReadModel> GetList([FromQuery] int? authorId)
         {
             if (authorId.HasValue)
             {
@@ -87,25 +87,26 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("books/{id}")]
-        public ActionResult<AuthorReadModel> Update(int id, [FromBody] BookModel updatedBook)
+        public ActionResult<AuthorReadModel> Update(int id, [FromBody] BookModel updateBook)
         {
-            if (!AuthorsController.Authors.Exists(a => a.Id == updatedBook.AuthorId))
+            bool isAuthorIdExists = _books.CheckAuthorId(updateBook.AuthorId);
+
+            if (!isAuthorIdExists)
             {
                 return NotFound("authorNotFound");
             }
 
-            BookReadModel book = Books.SingleOrDefault(b => b.Id == id);
+            bool isBookIdExists = _books.CheckBookId(id);
 
-            if (book == null)
+            if (!isBookIdExists)
             {
                 return NotFound("bookNotFound");
             }
 
-            book.AuthorId = updatedBook.AuthorId;
-            book.BookName = updatedBook.BookName;
-            book.ReleaseYear = updatedBook.ReleaseYear;
+            _books.UpdateBookById(id, updateBook);
 
-            return Ok();
+            BookReadModel updatedBook = _books.GetBookById(id);
+            return Ok(updatedBook);
         }
 
         [HttpDelete]
