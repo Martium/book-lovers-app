@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
 using Martium.BookLovers.Api.Host.Repositories;
@@ -13,17 +12,6 @@ namespace Martium.BookLovers.Api.Host.Controllers
     [Route("v1/bookLovers")]
     public class BooksController : ControllerBase
     {
-        public static List<BookReadModel> Books = new List<BookReadModel>()
-        {
-            new BookReadModel { AuthorId = AuthorsController.Authors[0].Id, Id = 1, BookName = "Harry Potter and the Philosopher's Stone", ReleaseYear = 1997 },
-            new BookReadModel { AuthorId = AuthorsController.Authors[0].Id, Id = 2, BookName = "Harry Potter and the Chamber of Secrets", ReleaseYear =  1998 },
-            new BookReadModel { AuthorId = AuthorsController.Authors[0].Id, Id = 3, BookName = "Harry Potter and the Prisoner of Azkaban", ReleaseYear = 1999 },
-
-            new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 4, BookName = "A Game of Thrones", ReleaseYear = 1996 },
-            new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 5, BookName = "A Clash of Kings", ReleaseYear = 1998 },
-            new BookReadModel { AuthorId = AuthorsController.Authors[1].Id, Id = 6, BookName = "A Storm of Swords", ReleaseYear = 2000 }
-        };
-
         private readonly BookRepository _books = new BookRepository();
 
         [HttpGet]
