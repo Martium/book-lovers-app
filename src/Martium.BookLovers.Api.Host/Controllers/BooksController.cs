@@ -68,26 +68,20 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("books")]
-        public ActionResult<AuthorReadModel> Create([FromBody] BookModel book)
+        public ActionResult<AuthorReadModel> Create([FromBody] BookModel bookRequest)
         {
-            if (!AuthorsController.Authors.Exists(a => a.Id == book.AuthorId))
+            bool isAuthorIdExists = _books.CheckAuthorId(bookRequest.AuthorId);
+
+            if (!isAuthorIdExists)
             {
                 return NotFound("authorNotFound");
             }
 
-            int newBookId = Books.Max(b => b.Id) + 1;
+            int id = _books.CreateNewBook(bookRequest);
 
-            var newBook = new BookReadModel
-            {
-                AuthorId = book.AuthorId,
-                Id = newBookId,
-                BookName = book.BookName,
-                ReleaseYear = book.ReleaseYear
-            };
+            BookReadModel newBook = _books.GetBookById(id);
 
-            Books.Add(newBook);
-
-            return CreatedAtAction(nameof(GetById), new { id = newBookId }, newBook);
+            return CreatedAtAction(nameof(GetById), new { id }, newBook);
         }
 
         [HttpPut]
