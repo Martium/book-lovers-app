@@ -12,12 +12,6 @@ namespace Martium.BookLovers.Api.Host.Controllers
     [Route("v1/bookLovers")]
     public class AuthorsController : ControllerBase
     {
-        public static List<AuthorReadModel> Authors = new List<AuthorReadModel>
-        {
-            new AuthorReadModel { Id = 1, FirstName = "Joanne", LastName =  "Rowling" },
-            new AuthorReadModel { Id = 2, FirstName = "George", LastName = "Raymond Richard Martin" }
-        };
-
         private readonly AuthorRepository _authorRepository = new AuthorRepository();
 
         [HttpGet]
