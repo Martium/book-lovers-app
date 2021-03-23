@@ -161,37 +161,5 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 return getBook;
             }
         }
-
-        public bool CheckBookId(int id)
-        {
-            using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
-            {
-                dbConnection.Open();
-
-                string chechAuthorIdCommand =
-                    @"SELECT
-                        B.Id
-                      FROM Books B
-                      WHERE
-                        EXISTS (
-                            SELECT
-                                1
-                            FROM
-                                Books
-                            WHERE
-                                Id = @Id
-                        );
-                     ";
-
-                object queryParameters = new
-                {
-                    Id = id
-                };
-
-                bool isIdExists = dbConnection.ExecuteScalar<bool>(chechAuthorIdCommand, queryParameters);
-
-                return isIdExists;
-            }
-        }
     }
 }
