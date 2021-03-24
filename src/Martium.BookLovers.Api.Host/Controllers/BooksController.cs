@@ -12,6 +12,8 @@ namespace Martium.BookLovers.Api.Host.Controllers
     [Route("v1/bookLovers")]
     public class BooksController : ControllerBase
     {
+        private readonly AuthorRepository _author = new AuthorRepository();
+
         private readonly BookRepository _books = new BookRepository();
 
         [HttpGet]
@@ -50,16 +52,16 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books")]
         public ActionResult<AuthorReadModel> Create([FromBody] BookModel bookRequest)
         {
-            BookReadModel bookByAuthorId = _books.CheckBookByAuthorId(bookRequest.AuthorId);
+            AuthorReadModel authorById = _author.GetAuthorById(bookRequest.AuthorId);
 
-            if (bookByAuthorId == null)
+            if (authorById == null)
             {
                 return NotFound("authorNotFound");
             }
 
             int id = _books.CreateNewBook(bookRequest);
 
-            BookReadModel newBook = _books.GetBookById(id); // nesugalvoju kaip viena karta saukt repositorija
+            BookReadModel newBook = _books.GetBookById(id); 
 
             return CreatedAtAction(nameof(GetById), new { id }, newBook);
         }
@@ -69,14 +71,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult<AuthorReadModel> Update(int id, [FromBody] BookModel updateBook)
         {
-            BookReadModel bookByAuthorId = _books.CheckBookByAuthorId(updateBook.AuthorId);
+            AuthorReadModel authorById = _author.GetAuthorById(updateBook.AuthorId);
 
-            if (bookByAuthorId == null)
+            if (authorById == null)
             {
                 return NotFound("authorNotFound");
             }
 
-            BookReadModel bookById = _books.GetBookById(id); // nesugalvoju kaip viena karta saukt repositorija
+            BookReadModel bookById = _books.GetBookById(id); 
 
             if (bookById == null)
             {
