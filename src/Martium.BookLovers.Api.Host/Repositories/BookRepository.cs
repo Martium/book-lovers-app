@@ -137,29 +137,5 @@ namespace Martium.BookLovers.Api.Host.Repositories
                 dbConnection.Execute(deleteBookCommand, queryParameters);
             }
         }
-
-        public BookReadModel CheckBookByAuthorId(int authorId)
-        {
-            using (SQLiteConnection dbConnection = new SQLiteConnection(DatabaseConfiguration.ConnectionString))
-            {
-                dbConnection.Open();
-
-                string getExistingBookCommand =
-                    @"SELECT
-                        B.Id , B.AuthorId, B.BookName , B.ReleaseYear
-                      FROM Books B
-                      WHERE
-                        B.AuthorId = @AuthorId;
-                     ";
-
-                object queryParameter = new
-                {
-                    AuthorId = authorId
-                };
-
-                BookReadModel getBook = dbConnection.QuerySingleOrDefault<BookReadModel>(getExistingBookCommand, queryParameter);
-                return getBook;
-            }
-        }
     }
 }
