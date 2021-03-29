@@ -1,4 +1,5 @@
 using System;
+using Martium.BookLovers.Api.Host.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,8 @@ namespace Martium.BookLovers.Api.Host
 {
     public class Startup
     {
+        private static readonly DatabaseInitializerRepository DatabaseInitializerRepository = new DatabaseInitializerRepository();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -59,6 +62,8 @@ namespace Martium.BookLovers.Api.Host
             {
                 endpoints.MapControllers();
             });
+
+            DatabaseInitializerRepository.InitializeDatabaseIfNotExist();
         }
     }
 }
