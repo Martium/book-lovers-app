@@ -12,24 +12,21 @@ namespace Martium.BookLovers.Api.Host.Controllers
     [Route("v1/bookLovers")]
     public class BooksController : ControllerBase
     {
-        private readonly AuthorRepository _author = new AuthorRepository();
+        private readonly AuthorRepository _authorRepository = new AuthorRepository();
 
-        private readonly BookRepository _books = new BookRepository();
+        private readonly BookRepository _bookRepository = new BookRepository();
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("books")]
-        public ActionResult<AuthorReadModel> GetList([FromQuery] int? authorId)
+        public ActionResult<List<AuthorReadModel>> GetList([FromQuery] int? authorId)
         {
-            if (authorId.HasValue)
-            {
-                List<BookReadModel> authorsBooks = _books.GetAllAuthorsBooks(authorId.Value)
-                    .FindAll(a => a.AuthorId == authorId.Value);
+            List<BookReadModel> books = new List<BookReadModel>();
 
-                return Ok(authorsBooks);
-            }
+            books = authorId.HasValue 
+                ? _bookRepository.GetAllAuthorsBooks(authorId.Value) 
+                : _bookRepository.GetAllBooks();
 
-            List<BookReadModel> books = _books.GetAllBooks();
             return Ok(books);
         }
 
@@ -38,7 +35,7 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult<BookReadModel> GetById(int id)
         {
-            BookReadModel book = _books.GetBookById(id);
+            BookReadModel book = _bookRepository.GetBookById(id);
 
             if (book == null)
             {
@@ -52,16 +49,16 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books")]
         public ActionResult<AuthorReadModel> Create([FromBody] BookModel bookRequest)
         {
-            AuthorReadModel authorById = _author.GetAuthorById(bookRequest.AuthorId);
+            AuthorReadModel authorById = _authorRepository.GetAuthorById(bookRequest.AuthorId);
 
             if (authorById == null)
             {
-                return NotFound("authorNotFound");
+                return BadRequest("authorNotFound");
             }
 
-            int id = _books.CreateNewBook(bookRequest);
+            int id = _bookRepository.CreateNewBook(bookRequest);
 
-            BookReadModel newBook = _books.GetBookById(id); 
+            BookReadModel newBook = _bookRepository.GetBookById(id); 
 
             return CreatedAtAction(nameof(GetById), new { id }, newBook);
         }
@@ -71,23 +68,25 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult<AuthorReadModel> Update(int id, [FromBody] BookModel updateBook)
         {
-            AuthorReadModel authorById = _author.GetAuthorById(updateBook.AuthorId);
+            AuthorReadModel authorById = _authorRepository.GetAuthorById(updateBook.AuthorId);
 
             if (authorById == null)
             {
-                return NotFound("authorNotFound");
+                return BadRequest("authorNotFound");
             }
 
-            BookReadModel bookById = _books.GetBookById(id); 
+            BookReadModel bookById = _bookRepository.GetBookById(id); 
 
             if (bookById == null)
             {
                 return NotFound("bookNotFound");
             }
 
-            _books.UpdateBookById(id, updateBook);
+            _bookRepository.UpdateBookById(id, updateBook);
+
+            var updatedBook = _bookRepository.GetBookById(id);
             
-            return Ok(bookById);
+            return Ok(updatedBook);
         }
 
         [HttpDelete]
@@ -95,7 +94,14 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books/{id}")]
         public ActionResult DeleteBook(int id)
         {
-            _books.DeleteBookById(id);
+            BookReadModel bookById = _bookRepository.GetBookById(id);
+
+            if (bookById == null)
+            {
+                return NotFound("bookNotFound");
+            }
+
+            _bookRepository.DeleteBookById(id);
 
             return NoContent();
         }
