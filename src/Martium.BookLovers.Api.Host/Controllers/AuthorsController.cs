@@ -56,16 +56,18 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult<AuthorReadModel> Update([FromBody] AuthorModel authorUpdate, int id)
         {
-            AuthorReadModel updatedAuthorInfo = _authorRepository.GetAuthorById(id);
+            AuthorReadModel existingAuthor = _authorRepository.GetAuthorById(id);
 
-            if (updatedAuthorInfo == null)
+            if (existingAuthor == null)
             {
                 return NotFound("authorNotFound");
             }
 
             _authorRepository.UpdateAuthorById(id, authorUpdate);
 
-            return Ok(updatedAuthorInfo);
+            var updatedAuthor = _authorRepository.GetAuthorById(id);
+
+            return Ok(updatedAuthor);
         }           
 
         [HttpDelete]
@@ -73,6 +75,13 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("authors/{id}")]
         public ActionResult Delete(int id)
         {
+            AuthorReadModel existingAuthor = _authorRepository.GetAuthorById(id);
+
+            if (existingAuthor == null)
+            {
+                return NotFound("authorNotFound");
+            }
+
             _authorRepository.DeleteAuthorById(id);
 
             return NoContent();
