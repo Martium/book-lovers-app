@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Martium.BookLovers.Api.Host.Errors
+namespace Martium.BookLovers.Api.Host.Errors.Exceptions
 {
     public class NotFoundException : ApiException
     {

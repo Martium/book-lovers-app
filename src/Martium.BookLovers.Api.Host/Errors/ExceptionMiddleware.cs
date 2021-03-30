@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Martium.BookLovers.Api.Contracts.Errors;
+using Martium.BookLovers.Api.Host.Errors.Exceptions;
 using Microsoft.AspNetCore.Http;
 
 namespace Martium.BookLovers.Api.Host.Errors
