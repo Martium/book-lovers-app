@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Martium.BookLovers.Api.Host.Services
 {
-    public class AuthorService : ControllerBase
+    public class AuthorService 
     {
         private readonly AuthorRepository _authorRepository = new AuthorRepository();
 
