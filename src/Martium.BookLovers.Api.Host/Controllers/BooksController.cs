@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
-using Martium.BookLovers.Api.Host.Repositories;
 using Martium.BookLovers.Api.Host.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
 using Martium.BookLovers.Api.Host.Errors.Exceptions;
 using Martium.BookLovers.Api.Host.Repositories;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Martium.BookLovers.Api.Host.Services
 {
