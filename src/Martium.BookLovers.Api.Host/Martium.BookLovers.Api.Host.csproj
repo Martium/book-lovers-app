@@ -14,5 +14,9 @@
     <ProjectReference Include="..\Martium.BookLovers.Api.Contracts\Martium.BookLovers.Api.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 
 </Project>
