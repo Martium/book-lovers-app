@@ -120,8 +120,5 @@ namespace Martium.BookLovers.Api.Host.Services
                 throw new BadRequestException("YearCantBeInFuture","Year can not be in Future");
             }
         }
-        
-          
-        
     }
 }
