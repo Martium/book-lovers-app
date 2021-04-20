@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Api.Host.Constants;
 using Martium.BookLovers.Api.Host.Errors.Exceptions;
 using Martium.BookLovers.Api.Host.Repositories;
 
@@ -38,10 +40,12 @@ namespace Martium.BookLovers.Api.Host.Services
         public BookReadModel CreateNewBook(BookModel bookRequest)
         {
             CheckAuthorId(bookRequest);
+            CheckBookNameLength(bookRequest);
+            CheckBookYear(bookRequest);
 
             int bookId = _bookRepository.CreateNewBook(bookRequest);
 
-            BookReadModel newBook = CreateNewBookReadModel(bookRequest, bookId);
+            BookReadModel newBook = FillNewBookInfo(bookRequest, bookId);
 
             return newBook;
         }
@@ -49,6 +53,8 @@ namespace Martium.BookLovers.Api.Host.Services
         public BookReadModel UpdateNewBook(BookModel updateBook, int id)
         {
             CheckAuthorId(updateBook);
+            CheckBookNameLength(updateBook);
+            CheckBookYear(updateBook);
 
             GetBookById(id);
 
@@ -81,9 +87,9 @@ namespace Martium.BookLovers.Api.Host.Services
             }
         }
 
-        private BookReadModel CreateNewBookReadModel(BookModel bookRequest, int bookId)
+        private BookReadModel FillNewBookInfo(BookModel bookRequest, int bookId)
         {
-            BookReadModel newBookReadModel = new BookReadModel()
+            BookReadModel newBookInfo = new BookReadModel()
             {
                 AuthorId = bookRequest.AuthorId,
                 Id = bookId,
@@ -91,7 +97,31 @@ namespace Martium.BookLovers.Api.Host.Services
                 ReleaseYear = bookRequest.ReleaseYear
             };
 
-            return newBookReadModel;
+            return newBookInfo;
         }
+
+        private void CheckBookNameLength(BookModel bookRequest)
+        {
+            if (bookRequest.BookName.Length > BookLoversSettings.BookLengths.BookName)
+            {
+                throw new BadRequestException("MaxLengthExceeds", "The size of the Book Name exceeds the maximum size permitted.");
+            }
+        }
+
+        private void CheckBookYear(BookModel bookRequest)
+        {
+            if (bookRequest.ReleaseYear <= 0)
+            {
+                throw new BadRequestException("YearCantBeNegativeNumberOrZero", "Year can not be negative number or zero");
+            }
+
+            if (bookRequest.ReleaseYear > DateTime.Now.Year)
+            {
+                throw new BadRequestException("YearCantBeInFuture","Year can not be in Future");
+            }
+        }
+        
+          
+        
     }
 }
