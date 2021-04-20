@@ -39,11 +39,9 @@ namespace Martium.BookLovers.Api.Host.Controllers
         [Route("books")]
         public ActionResult<AuthorReadModel> Create([FromBody] BookModel bookRequest)
         {
-            int id = _bookService.CreateNewBook(bookRequest);
+            BookReadModel newBook = _bookService.CreateNewBook(bookRequest);
 
-            BookReadModel newBook = _bookService.GetBookById(id);
-
-            return CreatedAtAction(nameof(GetById), new { id }, newBook);
+            return CreatedAtAction(nameof(GetById), new { newBook.Id }, newBook);
         }
 
         [HttpPut]
