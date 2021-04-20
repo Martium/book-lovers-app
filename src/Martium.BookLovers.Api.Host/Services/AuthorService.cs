@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Api.Host.Constants;
 using Martium.BookLovers.Api.Host.Errors.Exceptions;
 using Martium.BookLovers.Api.Host.Repositories;
 
@@ -31,6 +32,8 @@ namespace Martium.BookLovers.Api.Host.Services
 
         public AuthorReadModel CreateNewAuthor(AuthorModel authorRequest)
         {
+            CheckAuthorNameLength(authorRequest);
+
             int id = _authorRepository.CreateNewAuthor(authorRequest);
 
             AuthorReadModel newAuthor = FillNewAuthorInfo(authorRequest, id);
@@ -41,6 +44,7 @@ namespace Martium.BookLovers.Api.Host.Services
         public AuthorReadModel UpdateAuthor(AuthorModel authorUpdate, int id)
         {
             CheckId(id);
+            CheckAuthorNameLength(authorUpdate);
 
             _authorRepository.UpdateAuthorById(id, authorUpdate);
 
@@ -81,6 +85,24 @@ namespace Martium.BookLovers.Api.Host.Services
             };
 
             return newAuthorInfo;
+        }
+
+        private void CheckAuthorNameLength(AuthorModel authorRequest)
+        {
+            if (authorRequest.FirstName.Length > BookLoversSettings.AuthorLengths.FirstName && authorRequest.LastName.Length > BookLoversSettings.AuthorLengths.LastName)
+            {
+                throw new BadRequestException("MaxLengthExceeds", "The size of the Author First Name and Last name exceeds the maximum size permitted.");
+            }
+
+            if (authorRequest.FirstName.Length > BookLoversSettings.AuthorLengths.FirstName)
+            {
+                throw new BadRequestException("MaxLengthExceeds", "The size of the Author First Name exceeds the maximum size permitted.");
+            }
+
+            if (authorRequest.LastName.Length > BookLoversSettings.AuthorLengths.LastName)
+            {
+                throw new BadRequestException("MaxLengthExceeds", "The size of the Author Last Name exceeds the maximum size permitted.");
+            }
         }
     }
 }
