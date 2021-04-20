@@ -29,21 +29,18 @@ namespace Martium.BookLovers.Api.Host.Services
             return author;
         }
 
-        public int CreateNewAuthorId(AuthorModel author)
+        public AuthorReadModel CreateNewAuthor(AuthorModel authorRequest)
         {
-            int id = _authorRepository.CreateNewAuthor(author);
+            int id = _authorRepository.CreateNewAuthor(authorRequest);
 
-            return id;
+            AuthorReadModel newAuthor = FillNewAuthorInfo(authorRequest, id);
+
+            return newAuthor;
         }
 
         public AuthorReadModel UpdateAuthor(AuthorModel authorUpdate, int id)
         {
-            AuthorReadModel existingAuthor = _authorRepository.GetAuthorById(id);
-
-            if (existingAuthor == null)
-            {
-                throw new AuthorNotFoundException();
-            }
+            CheckId(id);
 
             _authorRepository.UpdateAuthorById(id, authorUpdate);
 
@@ -62,6 +59,28 @@ namespace Martium.BookLovers.Api.Host.Services
             }
 
             _authorRepository.DeleteAuthorById(id);
+        }
+
+        private void CheckId(int id)
+        {
+            AuthorReadModel existingAuthor = _authorRepository.GetAuthorById(id);
+
+            if (existingAuthor == null)
+            {
+                throw new AuthorNotFoundException();
+            }
+        }
+
+        private AuthorReadModel FillNewAuthorInfo(AuthorModel authorRequest, int id)
+        {
+            AuthorReadModel newAuthorInfo = new AuthorReadModel()
+            {
+                Id = id,
+                FirstName = authorRequest.FirstName,
+                LastName = authorRequest.LastName
+            };
+
+            return newAuthorInfo;
         }
     }
 }
