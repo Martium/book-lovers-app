@@ -104,7 +104,7 @@ namespace Martium.BookLovers.Api.Host.Services
         {
             if (bookRequest.BookName.Length > BookLoversSettings.BookLengths.BookName)
             {
-                throw new BadRequestException("MaxLengthExceeds", "The size of the Book Name exceeds the maximum size permitted.");
+                throw new BookNameMaxLengthExceedsException();
             }
         }
 
@@ -112,12 +112,12 @@ namespace Martium.BookLovers.Api.Host.Services
         {
             if (bookRequest.ReleaseYear <= 0)
             {
-                throw new BadRequestException("YearCantBeNegativeNumberOrZero", "Year can not be negative number or zero");
+                throw new YearCantBeNegativeNumberOrZeroException();
             }
 
             if (bookRequest.ReleaseYear > DateTime.Now.Year)
             {
-                throw new BadRequestException("YearCantBeInFuture","Year can not be in Future");
+                throw new YearCantBeInFutureException();
             }
         }
     }

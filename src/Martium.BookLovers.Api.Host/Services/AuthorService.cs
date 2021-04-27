@@ -91,17 +91,17 @@ namespace Martium.BookLovers.Api.Host.Services
         {
             if (authorRequest.FirstName.Length > BookLoversSettings.AuthorLengths.FirstName && authorRequest.LastName.Length > BookLoversSettings.AuthorLengths.LastName)
             {
-                throw new BadRequestException("MaxLengthExceeds", "The size of the Author First Name and Last name exceeds the maximum size permitted.");
+                throw new AuthorFirstNameAndLastNameMaxLengthExceedsException();
             }
 
             if (authorRequest.FirstName.Length > BookLoversSettings.AuthorLengths.FirstName)
             {
-                throw new BadRequestException("MaxLengthExceeds", "The size of the Author First Name exceeds the maximum size permitted.");
+                throw new AuthorFirstNameMaxLengthExceedsException();
             }
 
             if (authorRequest.LastName.Length > BookLoversSettings.AuthorLengths.LastName)
             {
-                throw new BadRequestException("MaxLengthExceeds", "The size of the Author Last Name exceeds the maximum size permitted.");
+                throw new AuthorLastNameMaxLengthExceedsException();
             }
         }
     }
