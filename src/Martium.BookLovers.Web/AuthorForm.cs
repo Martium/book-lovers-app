@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Martium.BookLovers.Web
 {
-    public partial class Form1 : Form
+    public partial class AuthorForm : Form
     {
-        public Form1()
+        public AuthorForm()
         {
             InitializeComponent();
         }
