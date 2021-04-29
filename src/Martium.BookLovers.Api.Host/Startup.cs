@@ -1,4 +1,5 @@
 using System;
+using Martium.BookLovers.Api.Host.Errors;
 using Martium.BookLovers.Api.Host.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,8 @@ namespace Martium.BookLovers.Api.Host
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseSwagger();
 

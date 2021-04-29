@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Martium.BookLovers.Api.Contracts.Response
+﻿namespace Martium.BookLovers.Api.Contracts.Response
 {
     public class BookReadModel
     {

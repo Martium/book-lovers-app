@@ -5,8 +5,4 @@
     <AssemblyName>Martium.BookLovers.Api.Contracts</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Errors\" />
-  </ItemGroup>
-
 </Project>
