@@ -79,5 +79,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Martium.BookLovers.Api.Client\Martium.BookLovers.Api.Client.csproj">
+      <Project>{259D8D7A-0FEC-48EB-8CD2-1450D292F8FE}</Project>
+      <Name>Martium.BookLovers.Api.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Martium.BookLovers.Api.Contracts\Martium.BookLovers.Api.Contracts.csproj">
+      <Project>{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}</Project>
+      <Name>Martium.BookLovers.Api.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

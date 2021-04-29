@@ -75,6 +75,7 @@
             this.GetAllAuthorsButton.TabIndex = 3;
             this.GetAllAuthorsButton.Text = "Get All Authors";
             this.GetAllAuthorsButton.UseVisualStyleBackColor = true;
+            this.GetAllAuthorsButton.Click += new System.EventHandler(this.GetAllAuthorsButton_Click);
             // 
             // AuthorIdTextBox
             // 
