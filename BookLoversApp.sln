@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Martium.BookLovers.Api.Host
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Martium.BookLovers.Api.Contracts", "src\Martium.BookLovers.Api.Contracts\Martium.BookLovers.Api.Contracts.csproj", "{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Martium.BookLovers.Api.Client", "src\Martium.BookLovers.Api.Client\Martium.BookLovers.Api.Client.csproj", "{259D8D7A-0FEC-48EB-8CD2-1450D292F8FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Martium.BookLovers.Web", "src\Martium.BookLovers.Web\Martium.BookLovers.Web.csproj", "{51BCAC8F-BB97-4755-9C1C-B816025CE857}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8C3A6C9-D1DB-4E50-8A32-D71F26DF06A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{259D8D7A-0FEC-48EB-8CD2-1450D292F8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{259D8D7A-0FEC-48EB-8CD2-1450D292F8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{259D8D7A-0FEC-48EB-8CD2-1450D292F8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{259D8D7A-0FEC-48EB-8CD2-1450D292F8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BCAC8F-BB97-4755-9C1C-B816025CE857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BCAC8F-BB97-4755-9C1C-B816025CE857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BCAC8F-BB97-4755-9C1C-B816025CE857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BCAC8F-BB97-4755-9C1C-B816025CE857}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
