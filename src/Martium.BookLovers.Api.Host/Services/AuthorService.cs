@@ -89,19 +89,14 @@ namespace Martium.BookLovers.Api.Host.Services
 
         private void CheckAuthorNameLength(AuthorModel authorRequest)
         {
-            if (authorRequest.FirstName.Length > BookLoversSettings.AuthorLengths.FirstName && authorRequest.LastName.Length > BookLoversSettings.AuthorLengths.LastName)
-            {
-                throw new AuthorFirstNameAndLastNameMaxLengthExceedsException();
-            }
-
             if (authorRequest.FirstName.Length > BookLoversSettings.AuthorLengths.FirstName)
             {
-                throw new AuthorFirstNameMaxLengthExceedsException();
+                throw new AuthorFirstNameLengthLimitExceededException();
             }
 
             if (authorRequest.LastName.Length > BookLoversSettings.AuthorLengths.LastName)
             {
-                throw new AuthorLastNameMaxLengthExceedsException();
+                throw new AuthorLastNameLengthLimitExceededException();
             }
         }
     }

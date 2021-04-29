@@ -83,7 +83,7 @@ namespace Martium.BookLovers.Api.Host.Services
 
             if (authorById == null)
             {
-                throw new AuthorBadRequestException();
+                throw new AuthorIdNotFoundException();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Martium.BookLovers.Api.Host.Services
         {
             if (bookRequest.BookName.Length > BookLoversSettings.BookLengths.BookName)
             {
-                throw new BookNameMaxLengthExceedsException();
+                throw new BookNameLengthLimitExceededException();
             }
         }
 
@@ -112,12 +112,12 @@ namespace Martium.BookLovers.Api.Host.Services
         {
             if (bookRequest.ReleaseYear <= 0)
             {
-                throw new YearCantBeNegativeNumberOrZeroException();
+                throw new BookYearsInvalidException();
             }
 
             if (bookRequest.ReleaseYear > DateTime.Now.Year)
             {
-                throw new YearCantBeInFutureException();
+                throw new BookYearsCannotBeInFutureException();
             }
         }
     }

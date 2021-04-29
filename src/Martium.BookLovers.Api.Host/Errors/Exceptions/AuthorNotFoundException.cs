@@ -2,7 +2,7 @@
 {
     public class AuthorNotFoundException : NotFoundException
     {
-        public AuthorNotFoundException() : base("authorNotFound", "Author was not found.")
+        public AuthorNotFoundException() : base("authorNotFound", "Author was not found")
         {
             
         }
