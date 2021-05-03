@@ -44,6 +44,7 @@
             this.GetAuthorByIdButton = new System.Windows.Forms.Button();
             this.CreateNewAuthorButton = new System.Windows.Forms.Button();
             this.UpdateAuthorButton = new System.Windows.Forms.Button();
+            this.DeleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -75,7 +76,7 @@
             // 
             // GetAllAuthorsButton
             // 
-            this.GetAllAuthorsButton.Location = new System.Drawing.Point(478, 21);
+            this.GetAllAuthorsButton.Location = new System.Drawing.Point(401, 21);
             this.GetAllAuthorsButton.Name = "GetAllAuthorsButton";
             this.GetAllAuthorsButton.Size = new System.Drawing.Size(88, 26);
             this.GetAllAuthorsButton.TabIndex = 3;
@@ -161,7 +162,7 @@
             // 
             // GetAuthorByIdButton
             // 
-            this.GetAuthorByIdButton.Location = new System.Drawing.Point(572, 21);
+            this.GetAuthorByIdButton.Location = new System.Drawing.Point(495, 21);
             this.GetAuthorByIdButton.Name = "GetAuthorByIdButton";
             this.GetAuthorByIdButton.Size = new System.Drawing.Size(98, 26);
             this.GetAuthorByIdButton.TabIndex = 13;
@@ -171,7 +172,7 @@
             // 
             // CreateNewAuthorButton
             // 
-            this.CreateNewAuthorButton.Location = new System.Drawing.Point(676, 21);
+            this.CreateNewAuthorButton.Location = new System.Drawing.Point(599, 21);
             this.CreateNewAuthorButton.Name = "CreateNewAuthorButton";
             this.CreateNewAuthorButton.Size = new System.Drawing.Size(98, 26);
             this.CreateNewAuthorButton.TabIndex = 14;
@@ -181,7 +182,7 @@
             // 
             // UpdateAuthorButton
             // 
-            this.UpdateAuthorButton.Location = new System.Drawing.Point(780, 21);
+            this.UpdateAuthorButton.Location = new System.Drawing.Point(703, 21);
             this.UpdateAuthorButton.Name = "UpdateAuthorButton";
             this.UpdateAuthorButton.Size = new System.Drawing.Size(98, 26);
             this.UpdateAuthorButton.TabIndex = 15;
@@ -189,11 +190,22 @@
             this.UpdateAuthorButton.UseVisualStyleBackColor = true;
             this.UpdateAuthorButton.Click += new System.EventHandler(this.UpdateAuthorButton_Click);
             // 
+            // DeleteButton
+            // 
+            this.DeleteButton.Location = new System.Drawing.Point(807, 21);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(98, 26);
+            this.DeleteButton.TabIndex = 16;
+            this.DeleteButton.Text = "Delete Author \r\n";
+            this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
             // AuthorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 450);
+            this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.UpdateAuthorButton);
             this.Controls.Add(this.CreateNewAuthorButton);
             this.Controls.Add(this.GetAuthorByIdButton);
@@ -237,6 +249,7 @@
         private System.Windows.Forms.Button GetAuthorByIdButton;
         private System.Windows.Forms.Button CreateNewAuthorButton;
         private System.Windows.Forms.Button UpdateAuthorButton;
+        private System.Windows.Forms.Button DeleteButton;
     }
 }
 

@@ -114,7 +114,7 @@ namespace Martium.BookLovers.Web
 
             bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
 
-            ShowOperationMessage(isCreated, "New Author Created successfully", "Something went wrong");
+            ShowOperationMessage(isCreated, "New Author Created successfully");
             
         }
 
@@ -133,8 +133,24 @@ namespace Martium.BookLovers.Web
 
             bool isUpdated = _authorsApiClient.UpdateAuthorById(updateAuthor, id);
 
-            ShowOperationMessage(isUpdated, "Updated Successful", "Something went wrong");
+            ShowOperationMessage(isUpdated, "Updated Successful");
 
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckAuthorIdTextBoxIsNullOrWhiteSpace();
+
+            if (isAuthorIdTextBoxIsNullOrWhiteSpace)
+            {
+                return;
+            }
+
+            int id = int.Parse(AuthorIdTextBox.Text);
+
+            bool isDeleted = _authorsApiClient.DeleteAuthorById(id);
+
+            ShowOperationMessage(isDeleted, "Deleted Successful");
         }
 
         #region Helpers
@@ -157,8 +173,10 @@ namespace Martium.BookLovers.Web
             return author;
         }
 
-        private void ShowOperationMessage(bool isSuccessful, string successMessage, string errorMessage)
+        private void ShowOperationMessage(bool isSuccessful, string successMessage)
         {
+            const string errorMessage = "Something went wrong";
+
             if (isSuccessful)
             {
                 _messageDialogService.ShowInfoMessage(successMessage);
@@ -216,6 +234,6 @@ namespace Martium.BookLovers.Web
         }
 
         #endregion
-
+        
     }
 }
