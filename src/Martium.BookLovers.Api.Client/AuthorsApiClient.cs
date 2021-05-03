@@ -78,5 +78,21 @@ namespace Martium.BookLovers.Api.Client
 
             return isUpdated;
         }
+
+        public bool DeleteAuthorById(int id)
+        {
+            bool isDeleted;
+
+            var request = new RestRequest(Method.DELETE)
+            {
+                Resource = $"v1/bookLovers/authors/{id}"
+            };
+
+            var response = _restClient.Execute(request);
+
+            isDeleted = response.IsSuccessful;
+
+            return isDeleted;
+        }
     }
 }
