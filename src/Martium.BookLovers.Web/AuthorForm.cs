@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Martium.BookLovers.Api.Client;
+using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
 using Martium.BookLovers.Web.Service;
 
@@ -132,8 +133,26 @@ namespace Martium.BookLovers.Web
         }
 
 
+
         #endregion
 
-       
+        private void CreateNewAuthorButton_Click(object sender, EventArgs e)
+        {
+            AuthorModel newAuthor = new AuthorModel();
+
+            newAuthor.FirstName = AuthorFirstNameTextBox.Text;
+            newAuthor.LastName = AuthorLastNameTextBox.Text;
+
+            bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
+
+            if (isCreated)
+            {
+                _messageDialogService.ShowInfoMessage("New Author Created successfully");
+            }
+            else
+            {
+                _messageDialogService.ShowErrorMessage("Something went wrong!");
+            }
+        }
     }
 }

@@ -8,5 +8,10 @@ namespace Martium.BookLovers.Web.Service
         {
             MessageBox.Show(errorMessage);
         }
+
+        public void ShowInfoMessage(string infoMessage)
+        {
+            MessageBox.Show(infoMessage);
+        }
     }
 }
