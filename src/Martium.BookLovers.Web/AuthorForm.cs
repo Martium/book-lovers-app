@@ -38,8 +38,32 @@ namespace Martium.BookLovers.Web
                     AuthorLastNameComboBox.Items.Add(allAuthor.LastName);
                 }
 
-                DisplayFirstElementInComboBoxes(_getAllAuthors);
+                DisplayFirstElementInComboBoxes();
             }
+        }
+
+        private void AuthorIdComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            int id = int.Parse(AuthorIdComboBox.Text);
+
+            AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
+            AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
+        }
+
+        private void AuthorFirstNameComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            string firstName = AuthorFirstNameComboBox.Text;
+
+            AuthorIdComboBox.Text = _getAllAuthors.Find(a => a.FirstName == firstName).Id.ToString();
+            AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.FirstName == firstName).LastName;
+        }
+
+        private void AuthorLastNameComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            string lastName = AuthorLastNameComboBox.Text;
+
+            AuthorIdComboBox.Text = _getAllAuthors.Find(a => a.LastName == lastName).Id.ToString();
+            AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.LastName == lastName).FirstName;
         }
 
         private void MakeComboBoxReadOnly()
@@ -56,18 +80,11 @@ namespace Martium.BookLovers.Web
             AuthorLastNameComboBox.Items.Clear();
         }
 
-        private void DisplayFirstElementInComboBoxes(List<AuthorReadModel> getAllAuthors)
+        private void DisplayFirstElementInComboBoxes()
         {
-            int id = getAllAuthors.First().Id;
+            int id = _getAllAuthors.First().Id;
 
             AuthorIdComboBox.Text = id.ToString();
-            AuthorFirstNameComboBox.Text = getAllAuthors.Find(a => a.Id == id).FirstName;
-            AuthorLastNameComboBox.Text = getAllAuthors.Find(a => a.Id == id).LastName;
-        }
-
-        private void AuthorIdComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-            int id = int.Parse(AuthorIdComboBox.Text);
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
         }

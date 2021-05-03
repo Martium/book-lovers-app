@@ -59,6 +59,7 @@
             this.AuthorFirstNameComboBox.Name = "AuthorFirstNameComboBox";
             this.AuthorFirstNameComboBox.Size = new System.Drawing.Size(209, 21);
             this.AuthorFirstNameComboBox.TabIndex = 1;
+            this.AuthorFirstNameComboBox.SelectedIndexChanged += new System.EventHandler(this.AuthorFirstNameComboBox_SelectedIndexChanged);
             // 
             // AuthorLastNameComboBox
             // 
@@ -67,6 +68,7 @@
             this.AuthorLastNameComboBox.Name = "AuthorLastNameComboBox";
             this.AuthorLastNameComboBox.Size = new System.Drawing.Size(219, 21);
             this.AuthorLastNameComboBox.TabIndex = 2;
+            this.AuthorLastNameComboBox.SelectedIndexChanged += new System.EventHandler(this.AuthorLastNameComboBox_SelectedIndexChanged);
             // 
             // GetAllAuthorsButton
             // 
