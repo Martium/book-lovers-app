@@ -26,5 +26,17 @@ namespace Martium.BookLovers.Api.Client
                 ? response.Data 
                 : new List<AuthorReadModel>();
         }
+
+        public AuthorReadModel GetAuthor(int id)
+        {
+            var request = new RestRequest(Method.GET)
+            {
+                Resource = $"v1/bookLovers/authors/{id}"
+            };
+
+            var response = _restClient.Execute<AuthorReadModel>(request);
+
+            return response.IsSuccessful ? response.Data : new AuthorReadModel();
+        }
     }
 }
