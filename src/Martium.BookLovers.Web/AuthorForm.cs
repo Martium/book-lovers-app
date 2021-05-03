@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Martium.BookLovers.Api.Client;
 using Martium.BookLovers.Api.Contracts.Request;
@@ -18,6 +18,8 @@ namespace Martium.BookLovers.Web
 
         private  List<AuthorReadModel> _getAllAuthors;
 
+        private const int TextBoxMaxLength = 100;
+
         public AuthorForm()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace Martium.BookLovers.Web
             _getAllAuthors = new List<AuthorReadModel>();
 
             MakeComboBoxReadOnly();
+
+            SetTextBoxLengths();
         }
 
         private void GetAllAuthorsButton_Click(object sender, System.EventArgs e)
@@ -76,8 +80,15 @@ namespace Martium.BookLovers.Web
 
         private void GetAuthorByIdButton_Click(object sender, System.EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(AuthorIdTextBox.Text))
+            {
+                _messageDialogService.ShowErrorMessage("please enter author id");
+                AuthorIdTextBox.BackColor = Color.Red;
+                return;
+            }
+
             int id = int.Parse(AuthorIdTextBox.Text);
-           
+
             var getAuthor = _authorsApiClient.GetAuthor(id);
 
             if (getAuthor != null)
@@ -89,12 +100,31 @@ namespace Martium.BookLovers.Web
             {
                 _messageDialogService.ShowErrorMessage("Author Not found ");
             }
-            
         }
 
         private void AuthorIdTextBox_TextChanged(object sender, EventArgs e)
         {
+            AuthorIdTextBox.BackColor = default;
             CheckAuthorIdTextBoxIsNumber();
+        }
+
+        private void CreateNewAuthorButton_Click(object sender, EventArgs e)
+        {
+            AuthorModel newAuthor = new AuthorModel();
+
+            newAuthor.FirstName = AuthorFirstNameTextBox.Text;
+            newAuthor.LastName = AuthorLastNameTextBox.Text;
+
+            bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
+
+            if (isCreated)
+            {
+                _messageDialogService.ShowInfoMessage("New Author Created successfully");
+            }
+            else
+            {
+                _messageDialogService.ShowErrorMessage("Something went wrong!");
+            }
         }
 
         #region Helpers
@@ -122,6 +152,12 @@ namespace Martium.BookLovers.Web
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
         }
 
+        private void SetTextBoxLengths()
+        {
+            AuthorFirstNameTextBox.MaxLength = TextBoxMaxLength;
+            AuthorLastNameTextBox.MaxLength = TextBoxMaxLength;
+        }
+
         private void CheckAuthorIdTextBoxIsNumber()
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(AuthorIdTextBox.Text, "[^0-9]"))
@@ -132,27 +168,7 @@ namespace Martium.BookLovers.Web
             }
         }
 
-
-
         #endregion
-
-        private void CreateNewAuthorButton_Click(object sender, EventArgs e)
-        {
-            AuthorModel newAuthor = new AuthorModel();
-
-            newAuthor.FirstName = AuthorFirstNameTextBox.Text;
-            newAuthor.LastName = AuthorLastNameTextBox.Text;
-
-            bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
-
-            if (isCreated)
-            {
-                _messageDialogService.ShowInfoMessage("New Author Created successfully");
-            }
-            else
-            {
-                _messageDialogService.ShowErrorMessage("Something went wrong!");
-            }
-        }
+        
     }
 }
