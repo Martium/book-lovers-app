@@ -35,7 +35,7 @@ namespace Martium.BookLovers.Web
             SetTextBoxLengths();
         }
 
-        private void GetAllAuthorsButton_Click(object sender, System.EventArgs e)
+        private void GetAllAuthorsButton_Click(object sender, EventArgs e)
         {
             ClearComboBox();
 
@@ -54,7 +54,7 @@ namespace Martium.BookLovers.Web
             }
         }
 
-        private void AuthorIdComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void AuthorIdComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int id = int.Parse(AuthorIdComboBox.Text);
 
@@ -62,7 +62,7 @@ namespace Martium.BookLovers.Web
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
         }
 
-        private void AuthorFirstNameComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void AuthorFirstNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string firstName = AuthorFirstNameComboBox.Text;
 
@@ -70,7 +70,7 @@ namespace Martium.BookLovers.Web
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.FirstName == firstName).LastName;
         }
 
-        private void AuthorLastNameComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void AuthorLastNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string lastName = AuthorLastNameComboBox.Text;
 
@@ -78,7 +78,7 @@ namespace Martium.BookLovers.Web
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.LastName == lastName).FirstName;
         }
 
-        private void GetAuthorByIdButton_Click(object sender, System.EventArgs e)
+        private void GetAuthorByIdButton_Click(object sender, EventArgs e)
         {
             bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckAuthorIdTextBoxIsNullOrWhiteSpace();
 
