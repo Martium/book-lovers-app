@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
 using RestSharp;
 
@@ -37,6 +39,25 @@ namespace Martium.BookLovers.Api.Client
             var response = _restClient.Execute<AuthorReadModel>(request);
 
             return response.IsSuccessful ? response.Data : new AuthorReadModel();
+        }
+
+        public bool CreateNewAuthor(AuthorModel createNewAuthor)
+        {
+            bool isCreated;
+
+            var request = new RestRequest(Method.POST)
+            {
+                Resource = "v1/bookLovers/authors",
+            };
+
+            request.AddJsonBody(createNewAuthor);
+            request.RequestFormat = DataFormat.Json;
+
+           var response = _restClient.Post(request);
+
+           isCreated = response.IsSuccessful;
+
+           return isCreated;
         }
     }
 }
