@@ -127,6 +127,7 @@ namespace Martium.BookLovers.Web
             {
                 _messageDialogService.ShowErrorMessage("text must be number (integer type)");
                 AuthorIdTextBox.Text = AuthorIdTextBox.Text.Remove(AuthorIdTextBox.Text.Length - 1);
+                AuthorIdTextBox.SelectionStart = AuthorIdTextBox.Text.Length;
             }
         }
 
