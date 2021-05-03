@@ -41,6 +41,7 @@
             this.AuthorIdListLabel = new System.Windows.Forms.Label();
             this.AuthorFirstNameListLabel = new System.Windows.Forms.Label();
             this.AuthorLastNameListLabel = new System.Windows.Forms.Label();
+            this.GetAuthorByIdButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -72,7 +73,7 @@
             // 
             // GetAllAuthorsButton
             // 
-            this.GetAllAuthorsButton.Location = new System.Drawing.Point(280, 21);
+            this.GetAllAuthorsButton.Location = new System.Drawing.Point(478, 21);
             this.GetAllAuthorsButton.Name = "GetAllAuthorsButton";
             this.GetAllAuthorsButton.Size = new System.Drawing.Size(88, 26);
             this.GetAllAuthorsButton.TabIndex = 3;
@@ -86,19 +87,20 @@
             this.AuthorIdTextBox.Name = "AuthorIdTextBox";
             this.AuthorIdTextBox.Size = new System.Drawing.Size(114, 20);
             this.AuthorIdTextBox.TabIndex = 4;
+            this.AuthorIdTextBox.TextChanged += new System.EventHandler(this.AuthorIdTextBox_TextChanged);
             // 
             // AuthorFirstNameTextBox
             // 
             this.AuthorFirstNameTextBox.Location = new System.Drawing.Point(109, 59);
             this.AuthorFirstNameTextBox.Name = "AuthorFirstNameTextBox";
-            this.AuthorFirstNameTextBox.Size = new System.Drawing.Size(114, 20);
+            this.AuthorFirstNameTextBox.Size = new System.Drawing.Size(197, 20);
             this.AuthorFirstNameTextBox.TabIndex = 5;
             // 
             // AuthorLastNameTextBox
             // 
             this.AuthorLastNameTextBox.Location = new System.Drawing.Point(109, 93);
             this.AuthorLastNameTextBox.Name = "AuthorLastNameTextBox";
-            this.AuthorLastNameTextBox.Size = new System.Drawing.Size(114, 20);
+            this.AuthorLastNameTextBox.Size = new System.Drawing.Size(197, 20);
             this.AuthorLastNameTextBox.TabIndex = 6;
             // 
             // AuthorIdLabel
@@ -155,11 +157,22 @@
             this.AuthorLastNameListLabel.TabIndex = 12;
             this.AuthorLastNameListLabel.Text = "Author Last name List";
             // 
+            // GetAuthorByIdButton
+            // 
+            this.GetAuthorByIdButton.Location = new System.Drawing.Point(572, 21);
+            this.GetAuthorByIdButton.Name = "GetAuthorByIdButton";
+            this.GetAuthorByIdButton.Size = new System.Drawing.Size(98, 26);
+            this.GetAuthorByIdButton.TabIndex = 13;
+            this.GetAuthorByIdButton.Text = "Get Author by id";
+            this.GetAuthorByIdButton.UseVisualStyleBackColor = true;
+            this.GetAuthorByIdButton.Click += new System.EventHandler(this.GetAuthorByIdButton_Click);
+            // 
             // AuthorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 450);
+            this.Controls.Add(this.GetAuthorByIdButton);
             this.Controls.Add(this.AuthorLastNameListLabel);
             this.Controls.Add(this.AuthorFirstNameListLabel);
             this.Controls.Add(this.AuthorIdListLabel);
@@ -197,6 +210,7 @@
         private System.Windows.Forms.Label AuthorIdListLabel;
         private System.Windows.Forms.Label AuthorFirstNameListLabel;
         private System.Windows.Forms.Label AuthorLastNameListLabel;
+        private System.Windows.Forms.Button GetAuthorByIdButton;
     }
 }
 

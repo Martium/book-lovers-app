@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Martium.BookLovers.Api.Client;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Web.Service;
 
 namespace Martium.BookLovers.Web
 {
@@ -10,11 +13,15 @@ namespace Martium.BookLovers.Web
     {
         private readonly AuthorsApiClient _authorsApiClient;
 
+        private readonly MessageDialogService _messageDialogService;
+
         private  List<AuthorReadModel> _getAllAuthors;
 
         public AuthorForm()
         {
             InitializeComponent();
+
+            _messageDialogService = new MessageDialogService();
 
             _authorsApiClient = new AuthorsApiClient();
 
@@ -66,6 +73,31 @@ namespace Martium.BookLovers.Web
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.LastName == lastName).FirstName;
         }
 
+        private void GetAuthorByIdButton_Click(object sender, System.EventArgs e)
+        {
+            int id = int.Parse(AuthorIdTextBox.Text);
+           
+            var getAuthor = _authorsApiClient.GetAuthor(id);
+
+            if (getAuthor != null)
+            {
+                AuthorFirstNameTextBox.Text = getAuthor.FirstName;
+                AuthorLastNameTextBox.Text = getAuthor.LastName;
+            }
+            else
+            {
+                _messageDialogService.ShowErrorMessage("Author Not found ");
+            }
+            
+        }
+
+        private void AuthorIdTextBox_TextChanged(object sender, EventArgs e)
+        {
+            CheckAuthorIdTextBoxIsNumber();
+        }
+
+        #region Helpers
+
         private void MakeComboBoxReadOnly()
         {
             AuthorIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -88,5 +120,19 @@ namespace Martium.BookLovers.Web
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
         }
+
+        private void CheckAuthorIdTextBoxIsNumber()
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(AuthorIdTextBox.Text, "[^0-9]"))
+            {
+                _messageDialogService.ShowErrorMessage("text must be number (integer type)");
+                AuthorIdTextBox.Text = AuthorIdTextBox.Text.Remove(AuthorIdTextBox.Text.Length - 1);
+            }
+        }
+
+
+        #endregion
+
+       
     }
 }
