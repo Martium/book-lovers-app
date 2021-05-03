@@ -43,6 +43,7 @@
             this.AuthorLastNameListLabel = new System.Windows.Forms.Label();
             this.GetAuthorByIdButton = new System.Windows.Forms.Button();
             this.CreateNewAuthorButton = new System.Windows.Forms.Button();
+            this.UpdateAuthorButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -178,11 +179,22 @@
             this.CreateNewAuthorButton.UseVisualStyleBackColor = true;
             this.CreateNewAuthorButton.Click += new System.EventHandler(this.CreateNewAuthorButton_Click);
             // 
+            // UpdateAuthorButton
+            // 
+            this.UpdateAuthorButton.Location = new System.Drawing.Point(780, 21);
+            this.UpdateAuthorButton.Name = "UpdateAuthorButton";
+            this.UpdateAuthorButton.Size = new System.Drawing.Size(98, 26);
+            this.UpdateAuthorButton.TabIndex = 15;
+            this.UpdateAuthorButton.Text = "Update Author \r\n";
+            this.UpdateAuthorButton.UseVisualStyleBackColor = true;
+            this.UpdateAuthorButton.Click += new System.EventHandler(this.UpdateAuthorButton_Click);
+            // 
             // AuthorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 450);
+            this.Controls.Add(this.UpdateAuthorButton);
             this.Controls.Add(this.CreateNewAuthorButton);
             this.Controls.Add(this.GetAuthorByIdButton);
             this.Controls.Add(this.AuthorLastNameListLabel);
@@ -224,6 +236,7 @@
         private System.Windows.Forms.Label AuthorLastNameListLabel;
         private System.Windows.Forms.Button GetAuthorByIdButton;
         private System.Windows.Forms.Button CreateNewAuthorButton;
+        private System.Windows.Forms.Button UpdateAuthorButton;
     }
 }
 

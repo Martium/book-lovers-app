@@ -80,10 +80,10 @@ namespace Martium.BookLovers.Web
 
         private void GetAuthorByIdButton_Click(object sender, System.EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(AuthorIdTextBox.Text))
+            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckAuthorIdTextBoxIsNullOrWhiteSpace();
+
+            if (isAuthorIdTextBoxIsNullOrWhiteSpace)
             {
-                _messageDialogService.ShowErrorMessage("please enter author id");
-                AuthorIdTextBox.BackColor = Color.Red;
                 return;
             }
 
@@ -110,21 +110,31 @@ namespace Martium.BookLovers.Web
 
         private void CreateNewAuthorButton_Click(object sender, EventArgs e)
         {
-            AuthorModel newAuthor = new AuthorModel();
-
-            newAuthor.FirstName = AuthorFirstNameTextBox.Text;
-            newAuthor.LastName = AuthorLastNameTextBox.Text;
+           AuthorModel newAuthor = GetAuthorInfoFromTextBoxes();
 
             bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
 
-            if (isCreated)
+            ShowOperationMessage(isCreated, "New Author Created successfully", "Something went wrong");
+            
+        }
+
+        private void UpdateAuthorButton_Click(object sender, EventArgs e)
+        {
+            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckAuthorIdTextBoxIsNullOrWhiteSpace();
+
+            if (isAuthorIdTextBoxIsNullOrWhiteSpace)
             {
-                _messageDialogService.ShowInfoMessage("New Author Created successfully");
+                return;
             }
-            else
-            {
-                _messageDialogService.ShowErrorMessage("Something went wrong!");
-            }
+
+            int id = int.Parse(AuthorIdTextBox.Text);
+
+            AuthorModel updateAuthor = GetAuthorInfoFromTextBoxes();
+
+            bool isUpdated = _authorsApiClient.UpdateAuthorById(updateAuthor, id);
+
+            ShowOperationMessage(isUpdated, "Updated Successful", "Something went wrong");
+
         }
 
         #region Helpers
@@ -134,6 +144,29 @@ namespace Martium.BookLovers.Web
             AuthorIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             AuthorFirstNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             AuthorLastNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        private AuthorModel GetAuthorInfoFromTextBoxes()
+        {
+            AuthorModel author = new AuthorModel()
+            {
+                FirstName = AuthorFirstNameTextBox.Text,
+                LastName = AuthorLastNameTextBox.Text
+            };
+
+            return author;
+        }
+
+        private void ShowOperationMessage(bool isSuccessful, string successMessage, string errorMessage)
+        {
+            if (isSuccessful)
+            {
+                _messageDialogService.ShowInfoMessage(successMessage);
+            }
+            else
+            {
+                _messageDialogService.ShowErrorMessage(errorMessage);
+            }
         }
 
         private void ClearComboBox()
@@ -168,7 +201,21 @@ namespace Martium.BookLovers.Web
             }
         }
 
+        private bool CheckAuthorIdTextBoxIsNullOrWhiteSpace()
+        {
+            bool isNullOrWhiteSpace = false;
+
+            if (string.IsNullOrWhiteSpace(AuthorIdTextBox.Text))
+            {
+                _messageDialogService.ShowErrorMessage("please enter author id");
+                AuthorIdTextBox.BackColor = Color.Red;
+                isNullOrWhiteSpace = true;
+            }
+
+            return isNullOrWhiteSpace;
+        }
+
         #endregion
-        
+
     }
 }
