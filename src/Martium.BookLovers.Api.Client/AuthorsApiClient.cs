@@ -59,5 +59,24 @@ namespace Martium.BookLovers.Api.Client
 
            return isCreated;
         }
+
+        public bool UpdateAuthorById(AuthorModel updateAuthor, int id)
+        {
+            bool isUpdated;
+
+            var request = new RestRequest(Method.PUT)
+            {
+                Resource = $"v1/bookLovers/authors/{id}"
+            };
+
+            request.AddJsonBody(updateAuthor);
+            request.RequestFormat = DataFormat.Json;
+
+            var response = _restClient.Execute<AuthorReadModel>(request);
+
+            isUpdated = response.IsSuccessful;
+
+            return isUpdated;
+        }
     }
 }
