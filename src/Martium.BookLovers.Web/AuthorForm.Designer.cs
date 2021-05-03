@@ -50,6 +50,7 @@
             this.AuthorIdComboBox.Name = "AuthorIdComboBox";
             this.AuthorIdComboBox.Size = new System.Drawing.Size(77, 21);
             this.AuthorIdComboBox.TabIndex = 0;
+            this.AuthorIdComboBox.SelectedIndexChanged += new System.EventHandler(this.AuthorIdComboBox_SelectedIndexChanged);
             // 
             // AuthorFirstNameComboBox
             // 
