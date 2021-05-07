@@ -68,6 +68,7 @@ namespace Martium.BookLovers.Web
 
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
+
         }
        
 
@@ -98,7 +99,7 @@ namespace Martium.BookLovers.Web
         private void AuthorIdTextBox_TextChanged(object sender, EventArgs e)
         {
             AuthorIdTextBox.BackColor = default;
-            CheckAuthorIdTextBoxIsNumber();
+            ForceTextBoxToBeNumber(AuthorIdTextBox);
         }
 
         private void CreateNewAuthorButton_Click(object sender, EventArgs e)
@@ -180,6 +181,19 @@ namespace Martium.BookLovers.Web
             BookAuthorIdComboBox.Text = _getAllBooks.Find(b => b.Id == id).AuthorId.ToString();
             BookNameComboBox.Text = _getAllBooks.Find(b => b.Id == id).BookName;
             ReleaseYearComboBox.Text = _getAllBooks.Find(b => b.Id == id).ReleaseYear.ToString();
+            
+        }
+
+        private void BookIdTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BookIdTextBox.BackColor = default;
+            ForceTextBoxToBeNumber(BookIdTextBox);
+        }
+
+        private void BookAuthorIdTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BookAuthorIdTextBox.BackColor = default;
+            ForceTextBoxToBeNumber(BookAuthorIdTextBox);
         }
 
 
@@ -264,13 +278,13 @@ namespace Martium.BookLovers.Web
             BookNameTextBox.MaxLength = TextBoxMaxLength;
         }
 
-        private void CheckAuthorIdTextBoxIsNumber()
+        private void ForceTextBoxToBeNumber(TextBox textBox)
         {
-            if (System.Text.RegularExpressions.Regex.IsMatch(AuthorIdTextBox.Text, "[^0-9]"))
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox.Text, "[^0-9]"))
             {
                 _messageDialogService.ShowErrorMessage("text must be number (integer type)");
-                AuthorIdTextBox.Text = AuthorIdTextBox.Text.Remove(AuthorIdTextBox.Text.Length - 1);
-                AuthorIdTextBox.SelectionStart = AuthorIdTextBox.Text.Length;
+                textBox.Text = textBox.Text.Remove(textBox.Text.Length - 1);
+                textBox.SelectionStart = textBox.Text.Length;
             }
         }
 
@@ -288,7 +302,9 @@ namespace Martium.BookLovers.Web
             return isNullOrWhiteSpace;
         }
 
+
         #endregion
-        
+
+       
     }
 }

@@ -279,6 +279,7 @@
             this.BookIdTextBox.Name = "BookIdTextBox";
             this.BookIdTextBox.Size = new System.Drawing.Size(114, 20);
             this.BookIdTextBox.TabIndex = 23;
+            this.BookIdTextBox.TextChanged += new System.EventHandler(this.BookIdTextBox_TextChanged);
             // 
             // BookAuthorIdTextBox
             // 
@@ -286,6 +287,7 @@
             this.BookAuthorIdTextBox.Name = "BookAuthorIdTextBox";
             this.BookAuthorIdTextBox.Size = new System.Drawing.Size(114, 20);
             this.BookAuthorIdTextBox.TabIndex = 24;
+            this.BookAuthorIdTextBox.TextChanged += new System.EventHandler(this.BookAuthorIdTextBox_TextChanged);
             // 
             // BookNameTextBox
             // 
