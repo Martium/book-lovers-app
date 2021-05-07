@@ -59,7 +59,7 @@ namespace Martium.BookLovers.Api.Client
             return isCreated;
         }
 
-        public bool UpdateBookById(AuthorModel updateBook, int id)
+        public bool UpdateBookById(BookModel updateBook, int id)
         {
             bool isUpdated;
 
@@ -71,11 +71,27 @@ namespace Martium.BookLovers.Api.Client
             request.AddJsonBody(updateBook);
             request.RequestFormat = DataFormat.Json;
 
-            var response = _restClient.Execute<AuthorReadModel>(request);
+            var response = _restClient.Execute<BookModel>(request);
 
             isUpdated = response.IsSuccessful;
 
             return isUpdated;
+        }
+
+        public bool DeleteBookById(int id)
+        {
+            bool isDeleted;
+
+            var request = new RestRequest(Method.DELETE)
+            {
+                Resource = $"v1/bookLovers/books/{id}"
+            };
+
+            var response = _restClient.Execute(request);
+
+            isDeleted = response.IsSuccessful;
+
+            return isDeleted;
         }
     }
 }
