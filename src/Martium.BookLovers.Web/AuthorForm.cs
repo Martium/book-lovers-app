@@ -37,7 +37,7 @@ namespace Martium.BookLovers.Web
 
         private void GetAllAuthorsButton_Click(object sender, EventArgs e)
         {
-            ClearComboBox();
+            ClearAuthorComboBox();
 
              _getAllAuthors = _authorsApiClient.GetAuthors();
 
@@ -50,7 +50,7 @@ namespace Martium.BookLovers.Web
                     AuthorLastNameComboBox.Items.Add(allAuthor.LastName);
                 }
 
-                DisplayFirstElementInComboBoxes();
+                DisplayFirstElementInAuthorComboBoxes();
             }
         }
 
@@ -192,14 +192,14 @@ namespace Martium.BookLovers.Web
             }
         }
 
-        private void ClearComboBox()
+        private void ClearAuthorComboBox()
         {
             AuthorIdComboBox.Items.Clear();
             AuthorFirstNameComboBox.Items.Clear();
             AuthorLastNameComboBox.Items.Clear();
         }
 
-        private void DisplayFirstElementInComboBoxes()
+        private void DisplayFirstElementInAuthorComboBoxes()
         {
             int id = _getAllAuthors.First().Id;
 
@@ -212,6 +212,8 @@ namespace Martium.BookLovers.Web
         {
             AuthorFirstNameTextBox.MaxLength = TextBoxMaxLength;
             AuthorLastNameTextBox.MaxLength = TextBoxMaxLength;
+
+            BookNameTextBox.MaxLength = TextBoxMaxLength;
         }
 
         private void CheckAuthorIdTextBoxIsNumber()
