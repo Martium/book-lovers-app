@@ -282,6 +282,48 @@ namespace Martium.BookLovers.Web
             ShowOperationMessage(isCreated, "New Book Created successfully");
         }
 
+        private void UpdateBookButton_Click(object sender, EventArgs e)
+        {
+            bool isBookIdTextBoxIsNullOrWhiteSpace =
+                CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, BookIdMustBeProvided);
+            bool isBookAuthorIdTextBoxIsNullOrWhiteSpace =
+                CheckTextBoxIsNullOrWhiteSpace(BookAuthorIdTextBox, AuthorIdMustBeProvided);
+            bool isBookNameTextBoxIsNullOrWhiteSpace =
+                CheckTextBoxIsNullOrWhiteSpace(BookNameTextBox, "Book name must be provided");
+            bool isReleaseYearTextBoxIsNullOrWhiteSpace =
+                CheckTextBoxIsNullOrWhiteSpace(ReleaseYearTextBox, "Year must be provided");
+
+            if (isBookIdTextBoxIsNullOrWhiteSpace || isBookAuthorIdTextBoxIsNullOrWhiteSpace || isBookNameTextBoxIsNullOrWhiteSpace || isReleaseYearTextBoxIsNullOrWhiteSpace)
+            {
+                return;
+            }
+
+            int id = int.Parse(BookIdTextBox.Text);
+
+            BookModel updateBook = GetBookInfoFromTextBoxes();
+
+            bool isBookUpdated = _booksApiClient.UpdateBookById(updateBook, id);
+
+            ShowOperationMessage(isBookUpdated, "Book updated Successfully");
+
+        }
+
+        private void DeleteBookButton_Click(object sender, EventArgs e)
+        {
+            bool isBookIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, BookIdMustBeProvided);
+
+            if (isBookIdTextBoxIsNullOrWhiteSpace)
+            {
+                return;
+            }
+
+            int id = int.Parse(BookIdTextBox.Text);
+
+            bool isDeleted = _booksApiClient.DeleteBookById(id);
+
+            ShowOperationMessage(isDeleted, "Deleted Successful");
+        }
+
 
         #region Helpers
 
@@ -401,13 +443,8 @@ namespace Martium.BookLovers.Web
         }
 
 
-
-
-
-
-
         #endregion
 
-       
+        
     }
 }

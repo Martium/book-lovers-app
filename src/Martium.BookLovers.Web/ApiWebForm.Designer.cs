@@ -66,6 +66,8 @@
             this.GetAllBooksButton = new System.Windows.Forms.Button();
             this.GetBookByIdButton = new System.Windows.Forms.Button();
             this.CreateNewBookButton = new System.Windows.Forms.Button();
+            this.UpdateBookButton = new System.Windows.Forms.Button();
+            this.DeleteBookButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -408,11 +410,33 @@
             this.CreateNewBookButton.UseVisualStyleBackColor = true;
             this.CreateNewBookButton.Click += new System.EventHandler(this.CreateNewBookButton_Click);
             // 
+            // UpdateBookButton
+            // 
+            this.UpdateBookButton.Location = new System.Drawing.Point(703, 266);
+            this.UpdateBookButton.Name = "UpdateBookButton";
+            this.UpdateBookButton.Size = new System.Drawing.Size(98, 26);
+            this.UpdateBookButton.TabIndex = 38;
+            this.UpdateBookButton.Text = "Update Book";
+            this.UpdateBookButton.UseVisualStyleBackColor = true;
+            this.UpdateBookButton.Click += new System.EventHandler(this.UpdateBookButton_Click);
+            // 
+            // DeleteBookButton
+            // 
+            this.DeleteBookButton.Location = new System.Drawing.Point(807, 266);
+            this.DeleteBookButton.Name = "DeleteBookButton";
+            this.DeleteBookButton.Size = new System.Drawing.Size(98, 26);
+            this.DeleteBookButton.TabIndex = 39;
+            this.DeleteBookButton.Text = "Delete Book";
+            this.DeleteBookButton.UseVisualStyleBackColor = true;
+            this.DeleteBookButton.Click += new System.EventHandler(this.DeleteBookButton_Click);
+            // 
             // ApiWebForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(995, 539);
+            this.Controls.Add(this.DeleteBookButton);
+            this.Controls.Add(this.UpdateBookButton);
             this.Controls.Add(this.CreateNewBookButton);
             this.Controls.Add(this.GetBookByIdButton);
             this.Controls.Add(this.GetAllBooksButton);
@@ -500,6 +524,8 @@
         private System.Windows.Forms.Button GetAllBooksButton;
         private System.Windows.Forms.Button GetBookByIdButton;
         private System.Windows.Forms.Button CreateNewBookButton;
+        private System.Windows.Forms.Button UpdateBookButton;
+        private System.Windows.Forms.Button DeleteBookButton;
     }
 }
 
