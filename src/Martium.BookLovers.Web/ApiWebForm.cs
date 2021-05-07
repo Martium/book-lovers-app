@@ -72,7 +72,6 @@ namespace Martium.BookLovers.Web
 
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
-
         }
        
 
@@ -133,7 +132,6 @@ namespace Martium.BookLovers.Web
             bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
 
             ShowOperationMessage(isCreated, "New Author Created successfully");
-            
         }
 
         private void UpdateAuthorButton_Click(object sender, EventArgs e)
@@ -156,7 +154,6 @@ namespace Martium.BookLovers.Web
             bool isUpdated = _authorsApiClient.UpdateAuthorById(updateAuthor, id);
 
             ShowOperationMessage(isUpdated, "Updated Successful");
-
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -209,7 +206,6 @@ namespace Martium.BookLovers.Web
             BookAuthorIdComboBox.Text = _getAllBooks.Find(b => b.Id == id).AuthorId.ToString();
             BookNameComboBox.Text = _getAllBooks.Find(b => b.Id == id).BookName;
             ReleaseYearComboBox.Text = _getAllBooks.Find(b => b.Id == id).ReleaseYear.ToString();
-            
         }
 
         private void BookIdTextBox_TextChanged(object sender, EventArgs e)
@@ -305,7 +301,6 @@ namespace Martium.BookLovers.Web
             bool isBookUpdated = _booksApiClient.UpdateBookById(updateBook, id);
 
             ShowOperationMessage(isBookUpdated, "Book updated Successfully");
-
         }
 
         private void DeleteBookButton_Click(object sender, EventArgs e)
@@ -333,7 +328,6 @@ namespace Martium.BookLovers.Web
         {
             ClearAllBooksTextBoxes();
         }
-
 
         #region Helpers
 
@@ -467,11 +461,7 @@ namespace Martium.BookLovers.Web
             return isNullOrWhiteSpace;
         }
 
-
-
-
         #endregion
-
         
     }
 }
