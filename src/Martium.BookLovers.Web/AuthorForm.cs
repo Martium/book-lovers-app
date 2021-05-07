@@ -160,6 +160,11 @@ namespace Martium.BookLovers.Web
             AuthorIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             AuthorFirstNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             AuthorLastNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            BookIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            BookAuthorIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            BookNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            ReleaseYearComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private AuthorModel GetAuthorInfoFromTextBoxes()
