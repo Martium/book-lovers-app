@@ -16,7 +16,7 @@ namespace Martium.BookLovers.Web
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AuthorForm());
+            Application.Run(new ApiWebForm());
         }
     }
 }

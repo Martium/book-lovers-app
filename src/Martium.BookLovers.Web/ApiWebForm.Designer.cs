@@ -1,6 +1,6 @@
 ﻿namespace Martium.BookLovers.Web
 {
-    partial class AuthorForm
+    partial class ApiWebForm
     {
         /// <summary>
         /// Required designer variable.
@@ -64,6 +64,8 @@
             this.BookReleaseYearListLabel = new System.Windows.Forms.Label();
             this.ReleaseYearComboBox = new System.Windows.Forms.ComboBox();
             this.GetAllBooksButton = new System.Windows.Forms.Button();
+            this.GetBookByIdButton = new System.Windows.Forms.Button();
+            this.CreateNewBookButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -115,6 +117,7 @@
             this.AuthorFirstNameTextBox.Name = "AuthorFirstNameTextBox";
             this.AuthorFirstNameTextBox.Size = new System.Drawing.Size(197, 20);
             this.AuthorFirstNameTextBox.TabIndex = 5;
+            this.AuthorFirstNameTextBox.TextChanged += new System.EventHandler(this.AuthorFirstNameTextBox_TextChanged);
             // 
             // AuthorLastNameTextBox
             // 
@@ -122,6 +125,7 @@
             this.AuthorLastNameTextBox.Name = "AuthorLastNameTextBox";
             this.AuthorLastNameTextBox.Size = new System.Drawing.Size(197, 20);
             this.AuthorLastNameTextBox.TabIndex = 6;
+            this.AuthorLastNameTextBox.TextChanged += new System.EventHandler(this.AuthorLastNameTextBox_TextChanged);
             // 
             // AuthorIdLabel
             // 
@@ -295,6 +299,7 @@
             this.BookNameTextBox.Name = "BookNameTextBox";
             this.BookNameTextBox.Size = new System.Drawing.Size(198, 20);
             this.BookNameTextBox.TabIndex = 25;
+            this.BookNameTextBox.TextChanged += new System.EventHandler(this.BookNameTextBox_TextChanged);
             // 
             // ReleaseYearTextBox
             // 
@@ -302,6 +307,7 @@
             this.ReleaseYearTextBox.Name = "ReleaseYearTextBox";
             this.ReleaseYearTextBox.Size = new System.Drawing.Size(114, 20);
             this.ReleaseYearTextBox.TabIndex = 26;
+            this.ReleaseYearTextBox.TextChanged += new System.EventHandler(this.ReleaseYearTextBox_TextChanged);
             // 
             // BookIdListLabel
             // 
@@ -382,11 +388,33 @@
             this.GetAllBooksButton.UseVisualStyleBackColor = true;
             this.GetAllBooksButton.Click += new System.EventHandler(this.GetAllBooksButton_Click);
             // 
-            // AuthorForm
+            // GetBookByIdButton
+            // 
+            this.GetBookByIdButton.Location = new System.Drawing.Point(495, 266);
+            this.GetBookByIdButton.Name = "GetBookByIdButton";
+            this.GetBookByIdButton.Size = new System.Drawing.Size(88, 26);
+            this.GetBookByIdButton.TabIndex = 36;
+            this.GetBookByIdButton.Text = "Get Book by Id";
+            this.GetBookByIdButton.UseVisualStyleBackColor = true;
+            this.GetBookByIdButton.Click += new System.EventHandler(this.GetBookByIdButton_Click);
+            // 
+            // CreateNewBookButton
+            // 
+            this.CreateNewBookButton.Location = new System.Drawing.Point(589, 266);
+            this.CreateNewBookButton.Name = "CreateNewBookButton";
+            this.CreateNewBookButton.Size = new System.Drawing.Size(108, 26);
+            this.CreateNewBookButton.TabIndex = 37;
+            this.CreateNewBookButton.Text = "Create New Book";
+            this.CreateNewBookButton.UseVisualStyleBackColor = true;
+            this.CreateNewBookButton.Click += new System.EventHandler(this.CreateNewBookButton_Click);
+            // 
+            // ApiWebForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(995, 539);
+            this.Controls.Add(this.CreateNewBookButton);
+            this.Controls.Add(this.GetBookByIdButton);
             this.Controls.Add(this.GetAllBooksButton);
             this.Controls.Add(this.ReleaseYearComboBox);
             this.Controls.Add(this.BookReleaseYearListLabel);
@@ -424,9 +452,9 @@
             this.Controls.Add(this.AuthorFirstNameComboBox);
             this.Controls.Add(this.AuthorIdComboBox);
             this.MaximizeBox = false;
-            this.Name = "AuthorForm";
+            this.Name = "ApiWebForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Authors";
+            this.Text = "Api Web Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -470,6 +498,8 @@
         private System.Windows.Forms.Label BookReleaseYearListLabel;
         private System.Windows.Forms.ComboBox ReleaseYearComboBox;
         private System.Windows.Forms.Button GetAllBooksButton;
+        private System.Windows.Forms.Button GetBookByIdButton;
+        private System.Windows.Forms.Button CreateNewBookButton;
     }
 }
 
