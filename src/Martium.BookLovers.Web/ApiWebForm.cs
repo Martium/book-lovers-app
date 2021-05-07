@@ -324,6 +324,16 @@ namespace Martium.BookLovers.Web
             ShowOperationMessage(isDeleted, "Deleted Successful");
         }
 
+        private void ClearAllAuthorsTextBoxesButton_Click(object sender, EventArgs e)
+        {
+            ClearAllAuthorsTextBoxes();
+        }
+
+        private void ClearAllBooksTextBoxesButton_Click(object sender, EventArgs e)
+        {
+            ClearAllBooksTextBoxes();
+        }
+
 
         #region Helpers
 
@@ -337,6 +347,21 @@ namespace Martium.BookLovers.Web
             BookAuthorIdComboBox.Enabled = false;
             BookNameComboBox.Enabled = false;
             ReleaseYearComboBox.Enabled = false;
+        }
+
+        private void ClearAllAuthorsTextBoxes()
+        {
+            AuthorIdTextBox.Clear();
+            AuthorFirstNameTextBox.Clear();
+            AuthorLastNameTextBox.Clear();
+        }
+
+        private void ClearAllBooksTextBoxes()
+        {
+            BookIdTextBox.Clear();
+            BookAuthorIdTextBox.Clear();
+            BookNameTextBox.Clear();
+            ReleaseYearTextBox.Clear();
         }
 
         private AuthorModel GetAuthorInfoFromTextBoxes()
@@ -441,6 +466,8 @@ namespace Martium.BookLovers.Web
 
             return isNullOrWhiteSpace;
         }
+
+
 
 
         #endregion

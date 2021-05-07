@@ -68,6 +68,8 @@
             this.CreateNewBookButton = new System.Windows.Forms.Button();
             this.UpdateBookButton = new System.Windows.Forms.Button();
             this.DeleteBookButton = new System.Windows.Forms.Button();
+            this.ClearAllAuthorsTextBoxesButton = new System.Windows.Forms.Button();
+            this.ClearAllBooksTextBoxesButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -430,11 +432,33 @@
             this.DeleteBookButton.UseVisualStyleBackColor = true;
             this.DeleteBookButton.Click += new System.EventHandler(this.DeleteBookButton_Click);
             // 
+            // ClearAllAuthorsTextBoxesButton
+            // 
+            this.ClearAllAuthorsTextBoxesButton.Location = new System.Drawing.Point(550, 96);
+            this.ClearAllAuthorsTextBoxesButton.Name = "ClearAllAuthorsTextBoxesButton";
+            this.ClearAllAuthorsTextBoxesButton.Size = new System.Drawing.Size(166, 26);
+            this.ClearAllAuthorsTextBoxesButton.TabIndex = 40;
+            this.ClearAllAuthorsTextBoxesButton.Text = "Clear all authors text boxes";
+            this.ClearAllAuthorsTextBoxesButton.UseVisualStyleBackColor = true;
+            this.ClearAllAuthorsTextBoxesButton.Click += new System.EventHandler(this.ClearAllAuthorsTextBoxesButton_Click);
+            // 
+            // ClearAllBooksTextBoxesButton
+            // 
+            this.ClearAllBooksTextBoxesButton.Location = new System.Drawing.Point(550, 345);
+            this.ClearAllBooksTextBoxesButton.Name = "ClearAllBooksTextBoxesButton";
+            this.ClearAllBooksTextBoxesButton.Size = new System.Drawing.Size(166, 26);
+            this.ClearAllBooksTextBoxesButton.TabIndex = 41;
+            this.ClearAllBooksTextBoxesButton.Text = "Clear all books text boxes";
+            this.ClearAllBooksTextBoxesButton.UseVisualStyleBackColor = true;
+            this.ClearAllBooksTextBoxesButton.Click += new System.EventHandler(this.ClearAllBooksTextBoxesButton_Click);
+            // 
             // ApiWebForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(995, 539);
+            this.Controls.Add(this.ClearAllBooksTextBoxesButton);
+            this.Controls.Add(this.ClearAllAuthorsTextBoxesButton);
             this.Controls.Add(this.DeleteBookButton);
             this.Controls.Add(this.UpdateBookButton);
             this.Controls.Add(this.CreateNewBookButton);
@@ -526,6 +550,8 @@
         private System.Windows.Forms.Button CreateNewBookButton;
         private System.Windows.Forms.Button UpdateBookButton;
         private System.Windows.Forms.Button DeleteBookButton;
+        private System.Windows.Forms.Button ClearAllAuthorsTextBoxesButton;
+        private System.Windows.Forms.Button ClearAllBooksTextBoxesButton;
     }
 }
 
