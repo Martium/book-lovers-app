@@ -63,6 +63,7 @@
             this.BookNameComboBox = new System.Windows.Forms.ComboBox();
             this.BookReleaseYearListLabel = new System.Windows.Forms.Label();
             this.ReleaseYearComboBox = new System.Windows.Forms.ComboBox();
+            this.GetAllBooksButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthorIdComboBox
@@ -370,11 +371,22 @@
             this.ReleaseYearComboBox.Size = new System.Drawing.Size(77, 21);
             this.ReleaseYearComboBox.TabIndex = 34;
             // 
+            // GetAllBooksButton
+            // 
+            this.GetAllBooksButton.Location = new System.Drawing.Point(401, 266);
+            this.GetAllBooksButton.Name = "GetAllBooksButton";
+            this.GetAllBooksButton.Size = new System.Drawing.Size(88, 26);
+            this.GetAllBooksButton.TabIndex = 35;
+            this.GetAllBooksButton.Text = "Get All Books";
+            this.GetAllBooksButton.UseVisualStyleBackColor = true;
+            this.GetAllBooksButton.Click += new System.EventHandler(this.GetAllBooksButton_Click);
+            // 
             // AuthorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(995, 539);
+            this.Controls.Add(this.GetAllBooksButton);
             this.Controls.Add(this.ReleaseYearComboBox);
             this.Controls.Add(this.BookReleaseYearListLabel);
             this.Controls.Add(this.BookNameComboBox);
@@ -456,6 +468,7 @@
         private System.Windows.Forms.ComboBox BookNameComboBox;
         private System.Windows.Forms.Label BookReleaseYearListLabel;
         private System.Windows.Forms.ComboBox ReleaseYearComboBox;
+        private System.Windows.Forms.Button GetAllBooksButton;
     }
 }
 

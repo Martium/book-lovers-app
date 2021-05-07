@@ -14,9 +14,13 @@ namespace Martium.BookLovers.Web
     {
         private readonly AuthorsApiClient _authorsApiClient;
 
+        private readonly BooksApiClient _booksApiClient;
+
         private readonly MessageDialogService _messageDialogService;
 
         private  List<AuthorReadModel> _getAllAuthors;
+
+        private List<BookReadModel> _getAllBooks;
 
         private const int TextBoxMaxLength = 100;
 
@@ -28,7 +32,11 @@ namespace Martium.BookLovers.Web
 
             _authorsApiClient = new AuthorsApiClient();
 
+            _booksApiClient = new BooksApiClient();
+
             _getAllAuthors = new List<AuthorReadModel>();
+
+            _getAllBooks = new List<BookReadModel>();
 
             MakeComboBoxReadOnly();
 
@@ -153,6 +161,33 @@ namespace Martium.BookLovers.Web
             ShowOperationMessage(isDeleted, "Deleted Successful");
         }
 
+        private void GetAllBooksButton_Click(object sender, EventArgs e)
+        {
+            ClearBookComboBoxes();
+
+            int? authorId = null;
+
+            if (!string.IsNullOrWhiteSpace(BookAuthorIdTextBox.Text))
+            {
+                authorId = int.Parse(BookAuthorIdTextBox.Text);
+            }
+
+            _getAllBooks = _booksApiClient.GetBooks(authorId);
+
+            if (_getAllBooks != null)
+            {
+                foreach (var books in _getAllBooks)
+                {
+                    BookIdComboBox.Items.Add(books.Id);
+                    BookAuthorIdComboBox.Items.Add(books.AuthorId);
+                    BookNameComboBox.Items.Add(books.BookName);
+                    ReleaseYearComboBox.Items.Add(books.ReleaseYear);
+                }
+            }
+
+            DisplayFirstElementInBooksComboBoxes();
+        }
+
         #region Helpers
 
         private void MakeComboBoxReadOnly()
@@ -199,6 +234,14 @@ namespace Martium.BookLovers.Web
             AuthorLastNameComboBox.Items.Clear();
         }
 
+        private void ClearBookComboBoxes()
+        {
+            BookIdComboBox.Items.Clear();
+            BookAuthorIdComboBox.Items.Clear();
+            BookNameComboBox.Items.Clear();
+            ReleaseYearComboBox.Items.Clear();
+        }
+
         private void DisplayFirstElementInAuthorComboBoxes()
         {
             int id = _getAllAuthors.First().Id;
@@ -206,6 +249,16 @@ namespace Martium.BookLovers.Web
             AuthorIdComboBox.Text = id.ToString();
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
+        }
+
+        private void DisplayFirstElementInBooksComboBoxes()
+        {
+            int id = _getAllBooks.First().Id;
+
+            BookIdComboBox.Text = id.ToString();
+            BookAuthorIdComboBox.Text = _getAllBooks.Find(b => b.Id == id).AuthorId.ToString();
+            BookNameComboBox.Text = _getAllBooks.Find(b => b.Id == id).BookName;
+            ReleaseYearComboBox.Text = _getAllBooks.Find(b => b.Id == id).ReleaseYear.ToString();
         }
 
         private void SetTextBoxLengths()
