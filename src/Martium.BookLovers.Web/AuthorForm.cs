@@ -38,7 +38,7 @@ namespace Martium.BookLovers.Web
 
             _getAllBooks = new List<BookReadModel>();
 
-            MakeComboBoxReadOnly();
+            SetComboBoxesControl();
 
             SetTextBoxLengths();
         }
@@ -69,22 +69,7 @@ namespace Martium.BookLovers.Web
             AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).FirstName;
             AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.Id == id).LastName;
         }
-
-        private void AuthorFirstNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string firstName = AuthorFirstNameComboBox.Text;
-
-            AuthorIdComboBox.Text = _getAllAuthors.Find(a => a.FirstName == firstName).Id.ToString();
-            AuthorLastNameComboBox.Text = _getAllAuthors.Find(a => a.FirstName == firstName).LastName;
-        }
-
-        private void AuthorLastNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string lastName = AuthorLastNameComboBox.Text;
-
-            AuthorIdComboBox.Text = _getAllAuthors.Find(a => a.LastName == lastName).Id.ToString();
-            AuthorFirstNameComboBox.Text = _getAllAuthors.Find(a => a.LastName == lastName).FirstName;
-        }
+       
 
         private void GetAuthorByIdButton_Click(object sender, EventArgs e)
         {
@@ -188,18 +173,28 @@ namespace Martium.BookLovers.Web
             DisplayFirstElementInBooksComboBoxes();
         }
 
+        private void BookIdComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int id = int.Parse(BookIdComboBox.Text);
+
+            BookAuthorIdComboBox.Text = _getAllBooks.Find(b => b.Id == id).AuthorId.ToString();
+            BookNameComboBox.Text = _getAllBooks.Find(b => b.Id == id).BookName;
+            ReleaseYearComboBox.Text = _getAllBooks.Find(b => b.Id == id).ReleaseYear.ToString();
+        }
+
+
         #region Helpers
 
-        private void MakeComboBoxReadOnly()
+        private void SetComboBoxesControl()
         {
             AuthorIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            AuthorFirstNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            AuthorLastNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            AuthorFirstNameComboBox.Enabled = false;
+            AuthorLastNameComboBox.Enabled = false;
 
             BookIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            BookAuthorIdComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            BookNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            ReleaseYearComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            BookAuthorIdComboBox.Enabled = false;
+            BookNameComboBox.Enabled = false;
+            ReleaseYearComboBox.Enabled = false;
         }
 
         private AuthorModel GetAuthorInfoFromTextBoxes()
