@@ -56,8 +56,10 @@
     <Compile Include="ApiWebForm.Designer.cs">
       <DependentUpon>ApiWebForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enums\ErrorsTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ErrorMessage.cs" />
     <Compile Include="Service\MessageDialogService.cs" />
     <EmbeddedResource Include="ApiWebForm.resx">
       <DependentUpon>ApiWebForm.cs</DependentUpon>
