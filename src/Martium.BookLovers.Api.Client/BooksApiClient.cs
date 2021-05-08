@@ -36,7 +36,7 @@ namespace Martium.BookLovers.Api.Client
 
             var response = _restClient.Execute<BookReadModel>(request);
 
-            return response.IsSuccessful ? response.Data : null;
+            return response.IsSuccessful ? response.Data : new BookReadModel();
         }
 
         public bool CreateNewAuthor(BookModel createNewBook)

@@ -22,7 +22,7 @@ namespace Martium.BookLovers.Api.Client
             };
 
             var response = _restClient.Execute<List<AuthorReadModel>>(request);
-
+            
             return response.IsSuccessful 
                 ? response.Data 
                 : new List<AuthorReadModel>();

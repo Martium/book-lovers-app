@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Martium.BookLovers.Api.Client;
 using Martium.BookLovers.Api.Contracts.Request;
 using Martium.BookLovers.Api.Contracts.Response;
+using Martium.BookLovers.Web.Enums;
 using Martium.BookLovers.Web.Service;
 
 namespace Martium.BookLovers.Web
@@ -23,10 +24,6 @@ namespace Martium.BookLovers.Web
         private List<BookReadModel> _getAllBooks;
 
         private const int TextBoxMaxLength = 100;
-
-        private const string AuthorIdMustBeProvided = "Author id must be provided";
-
-        private const string BookIdMustBeProvided = "Book id must be provided";
 
         public ApiWebForm()
         {
@@ -53,17 +50,21 @@ namespace Martium.BookLovers.Web
 
              _getAllAuthors = _authorsApiClient.GetAuthors();
 
-            if (_getAllAuthors != null)
-            {
-                foreach (var allAuthor in _getAllAuthors)
-                {
-                    AuthorIdComboBox.Items.Add(allAuthor.Id.ToString());
-                    AuthorFirstNameComboBox.Items.Add(allAuthor.FirstName);
-                    AuthorLastNameComboBox.Items.Add(allAuthor.LastName);
-                }
+             if (_getAllAuthors.Count == 0)
+             {
+                 _messageDialogService.ShowErrorMessage(ErrorsTypes.ThereIsNoAuthors);
+                 ClearAllAuthorsTextBoxes();
+                 return;
+             }
 
-                DisplayFirstElementInAuthorComboBoxes();
-            }
+             foreach (var allAuthor in _getAllAuthors)
+             {
+                 AuthorIdComboBox.Items.Add(allAuthor.Id.ToString());
+                 AuthorFirstNameComboBox.Items.Add(allAuthor.FirstName);
+                 AuthorLastNameComboBox.Items.Add(allAuthor.LastName);
+             }
+
+             DisplayFirstElementInAuthorComboBoxes();
         }
 
         private void AuthorIdComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,14 +78,32 @@ namespace Martium.BookLovers.Web
 
         private void GetAuthorByIdButton_Click(object sender, EventArgs e)
         {
-            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(AuthorIdTextBox, AuthorIdMustBeProvided);
+            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(AuthorIdTextBox, ErrorsTypes.AuthorIdMustBeProvided);
 
             if (isAuthorIdTextBoxIsNullOrWhiteSpace)
             {
                 return;
             }
 
+            _getAllAuthors = _authorsApiClient.GetAuthors();
+
+            if (_getAllAuthors.Count == 0)
+            {
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.ThereIsNoAuthors);
+                ClearAllAuthorsTextBoxes();
+                return;
+            }
+
+            int maxId = _getAllAuthors.Max(a => a.Id);
+           
             int id = int.Parse(AuthorIdTextBox.Text);
+
+            if (maxId < id || id == 0)
+            {
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.BadAuthorId);
+                ClearAllAuthorsTextBoxes();
+                return;
+            }
 
             var getAuthor = _authorsApiClient.GetAuthor(id);
 
@@ -95,7 +114,7 @@ namespace Martium.BookLovers.Web
             }
             else
             {
-                _messageDialogService.ShowErrorMessage("Author Not found ");
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.BadAuthorId);
             }
         }
 
@@ -118,9 +137,9 @@ namespace Martium.BookLovers.Web
         private void CreateNewAuthorButton_Click(object sender, EventArgs e)
         {
             bool isAuthorFirstNameTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(AuthorFirstNameTextBox, "Author First name must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(AuthorFirstNameTextBox, ErrorsTypes.AuthorFirstNameMustBeProvided);
             bool isAuthorLastNameTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(AuthorLastNameTextBox, "Author Last name must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(AuthorLastNameTextBox, ErrorsTypes.AuthorLastNameMustBeProvided);
 
             if (isAuthorFirstNameTextBoxIsNullOrWhiteSpace || isAuthorLastNameTextBoxIsNullOrWhiteSpace)
             {
@@ -131,34 +150,51 @@ namespace Martium.BookLovers.Web
 
             bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
 
-            ShowOperationMessage(isCreated, "New Author Created successfully");
+            ShowStatusMessage(isCreated, "New Author Created successfully", ErrorsTypes.NewAuthorWasNotCreated);
         }
 
         private void UpdateAuthorButton_Click(object sender, EventArgs e)
         {
-            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(AuthorIdTextBox, AuthorIdMustBeProvided);
+            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(AuthorIdTextBox, ErrorsTypes.AuthorIdMustBeProvided);
             bool isAuthorFirstNameTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(AuthorFirstNameTextBox, "Author First name must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(AuthorFirstNameTextBox, ErrorsTypes.AuthorFirstNameMustBeProvided);
             bool isAuthorLastNameTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(AuthorLastNameTextBox, "Author Last name must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(AuthorLastNameTextBox, ErrorsTypes.AuthorLastNameMustBeProvided);
 
             if (isAuthorIdTextBoxIsNullOrWhiteSpace || isAuthorFirstNameTextBoxIsNullOrWhiteSpace || isAuthorLastNameTextBoxIsNullOrWhiteSpace)
             {
                 return;
             }
 
+            _getAllAuthors = _authorsApiClient.GetAuthors();
+
+            if (_getAllAuthors.Count == 0)
+            {
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.ThereIsNoAuthors);
+                return;
+            }
+
+            int maxId = _getAllAuthors.Max(a => a.Id);
+
             int id = int.Parse(AuthorIdTextBox.Text);
+
+            if (maxId < id || id == 0)
+            {
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.BadAuthorId);
+                ClearAllAuthorsTextBoxes();
+                return;
+            }
 
             AuthorModel updateAuthor = GetAuthorInfoFromTextBoxes();
 
             bool isUpdated = _authorsApiClient.UpdateAuthorById(updateAuthor, id);
 
-            ShowOperationMessage(isUpdated, "Updated Successful");
+            ShowStatusMessage(isUpdated, "Updated Successful", ErrorsTypes.AuthorWasNotUpdated);
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(AuthorIdTextBox, AuthorIdMustBeProvided);
+            bool isAuthorIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(AuthorIdTextBox, ErrorsTypes.AuthorIdMustBeProvided);
 
             if (isAuthorIdTextBoxIsNullOrWhiteSpace)
             {
@@ -169,7 +205,7 @@ namespace Martium.BookLovers.Web
 
             bool isDeleted = _authorsApiClient.DeleteAuthorById(id);
 
-            ShowOperationMessage(isDeleted, "Deleted Successful");
+            ShowStatusMessage(isDeleted, "Deleted Successful", ErrorsTypes.AuthorWasDeletedBeforeOrNotExitsAtAll);
         }
 
         private void GetAllBooksButton_Click(object sender, EventArgs e)
@@ -234,7 +270,7 @@ namespace Martium.BookLovers.Web
         private void GetBookByIdButton_Click(object sender, EventArgs e)
         {
             bool isBookIdTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, BookIdMustBeProvided);
+                CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, ErrorsTypes.BookIdMustBeProvided);
 
             if (isBookIdTextBoxIsNullOrWhiteSpace)
             {
@@ -253,18 +289,18 @@ namespace Martium.BookLovers.Web
             }
             else
             {
-                _messageDialogService.ShowErrorMessage("Book not found");
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.BookNotFound);
             }
         }
 
         private void CreateNewBookButton_Click(object sender, EventArgs e)
         {
             bool isBookAuthorIdTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(BookAuthorIdTextBox, AuthorIdMustBeProvided);
+                CheckTextBoxIsNullOrWhiteSpace(BookAuthorIdTextBox, ErrorsTypes.AuthorIdMustBeProvided);
             bool isBookNameTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(BookNameTextBox, "Book name must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(BookNameTextBox, ErrorsTypes.BookNameMustBeProvided);
             bool isReleaseYearTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(ReleaseYearTextBox, "Year must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(ReleaseYearTextBox, ErrorsTypes.YearMustBeProvided);
 
             if (isBookAuthorIdTextBoxIsNullOrWhiteSpace || isBookNameTextBoxIsNullOrWhiteSpace || isReleaseYearTextBoxIsNullOrWhiteSpace)
             {
@@ -275,19 +311,19 @@ namespace Martium.BookLovers.Web
 
             bool isCreated = _booksApiClient.CreateNewAuthor(newBook);
 
-            ShowOperationMessage(isCreated, "New Book Created successfully");
+            ShowStatusMessage(isCreated, "New Book Created successfully", ErrorsTypes.NewBookWasNotCreated);
         }
 
         private void UpdateBookButton_Click(object sender, EventArgs e)
         {
             bool isBookIdTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, BookIdMustBeProvided);
+                CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, ErrorsTypes.BookIdMustBeProvided);
             bool isBookAuthorIdTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(BookAuthorIdTextBox, AuthorIdMustBeProvided);
+                CheckTextBoxIsNullOrWhiteSpace(BookAuthorIdTextBox, ErrorsTypes.AuthorIdMustBeProvided);
             bool isBookNameTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(BookNameTextBox, "Book name must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(BookNameTextBox, ErrorsTypes.BookNameMustBeProvided);
             bool isReleaseYearTextBoxIsNullOrWhiteSpace =
-                CheckTextBoxIsNullOrWhiteSpace(ReleaseYearTextBox, "Year must be provided");
+                CheckTextBoxIsNullOrWhiteSpace(ReleaseYearTextBox, ErrorsTypes.YearMustBeProvided);
 
             if (isBookIdTextBoxIsNullOrWhiteSpace || isBookAuthorIdTextBoxIsNullOrWhiteSpace || isBookNameTextBoxIsNullOrWhiteSpace || isReleaseYearTextBoxIsNullOrWhiteSpace)
             {
@@ -300,12 +336,12 @@ namespace Martium.BookLovers.Web
 
             bool isBookUpdated = _booksApiClient.UpdateBookById(updateBook, id);
 
-            ShowOperationMessage(isBookUpdated, "Book updated Successfully");
+            ShowStatusMessage(isBookUpdated, "Book updated Successfully", ErrorsTypes.BookWasNotUpdated);
         }
 
         private void DeleteBookButton_Click(object sender, EventArgs e)
         {
-            bool isBookIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, BookIdMustBeProvided);
+            bool isBookIdTextBoxIsNullOrWhiteSpace = CheckTextBoxIsNullOrWhiteSpace(BookIdTextBox, ErrorsTypes.BookIdMustBeProvided);
 
             if (isBookIdTextBoxIsNullOrWhiteSpace)
             {
@@ -316,7 +352,7 @@ namespace Martium.BookLovers.Web
 
             bool isDeleted = _booksApiClient.DeleteBookById(id);
 
-            ShowOperationMessage(isDeleted, "Deleted Successful");
+            ShowStatusMessage(isDeleted, "Deleted Successful", ErrorsTypes.BookWasDeletedBeforeOrNotExitsAtAll);
         }
 
         private void ClearAllAuthorsTextBoxesButton_Click(object sender, EventArgs e)
@@ -381,17 +417,15 @@ namespace Martium.BookLovers.Web
             return book;
         }
 
-        private void ShowOperationMessage(bool isSuccessful, string successMessage)
+        private void ShowStatusMessage(bool isSuccessful, string successMessage, ErrorsTypes errorsTypes)
         {
-            const string errorMessage = "Something went wrong";
-
             if (isSuccessful)
             {
                 _messageDialogService.ShowInfoMessage(successMessage);
             }
             else
             {
-                _messageDialogService.ShowErrorMessage(errorMessage);
+                _messageDialogService.ShowErrorMessage(errorsTypes);
             }
         }
 
@@ -431,29 +465,32 @@ namespace Martium.BookLovers.Web
 
         private void SetTextBoxLengths()
         {
+            const int releaseYearLength = 4;
+
             AuthorFirstNameTextBox.MaxLength = TextBoxMaxLength;
             AuthorLastNameTextBox.MaxLength = TextBoxMaxLength;
 
             BookNameTextBox.MaxLength = TextBoxMaxLength;
+            ReleaseYearTextBox.MaxLength = releaseYearLength;
         }
 
         private void ForceTextBoxToBeNumber(TextBox textBox)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(textBox.Text, "[^0-9]"))
             {
-                _messageDialogService.ShowErrorMessage("text must be number (integer type)");
+                _messageDialogService.ShowErrorMessage(ErrorsTypes.TextMustBeInteger);
                 textBox.Text = textBox.Text.Remove(textBox.Text.Length - 1);
                 textBox.SelectionStart = textBox.Text.Length;
             }
         }
 
-        private bool CheckTextBoxIsNullOrWhiteSpace(TextBox textBox, string errorMessage)
+        private bool CheckTextBoxIsNullOrWhiteSpace(TextBox textBox, ErrorsTypes errorsTypes)
         {
             bool isNullOrWhiteSpace = false;
 
             if (string.IsNullOrWhiteSpace(textBox.Text))
             {
-                _messageDialogService.ShowErrorMessage(errorMessage);
+                _messageDialogService.ShowErrorMessage(errorsTypes);
                 textBox.BackColor = Color.Red;
                 isNullOrWhiteSpace = true;
             }
