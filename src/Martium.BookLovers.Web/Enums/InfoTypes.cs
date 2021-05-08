@@ -4,8 +4,9 @@
     {
         NewAuthorCreated,
         AuthorUpdateSuccessful,
-        DeletedSuccessful,
+        AuthorDeletedSuccessful,
         NewBookCreated,
-        BookUpdatedSuccessfully
+        BookUpdatedSuccessfully,
+        BookDeletedSuccessfully
     }
 }

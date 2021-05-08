@@ -77,13 +77,19 @@ namespace Martium.BookLovers.Web.Service
                     MessageBox.Show(_infoMessage.NewAuthorCreated);
                     break;
                 case InfoTypes.AuthorUpdateSuccessful:
-                    MessageBox.Show(_infoMessage.UpdateSuccessful);
+                    MessageBox.Show(_infoMessage.AuthorUpdateSuccessful);
                     break;
-                case InfoTypes.DeletedSuccessful:
-                    MessageBox.Show(_infoMessage.DeletedSuccessful);
+                case InfoTypes.AuthorDeletedSuccessful:
+                    MessageBox.Show(_infoMessage.AuthorDeletedSuccessful);
                     break;
                 case InfoTypes.NewBookCreated:
                     MessageBox.Show(_infoMessage.NewBookCreated);
+                    break;
+                case InfoTypes.BookUpdatedSuccessfully:
+                    MessageBox.Show(_infoMessage.BookUpdatedSuccessfully);
+                    break;
+                case InfoTypes.BookDeletedSuccessfully:
+                    MessageBox.Show(_infoMessage.BookDeletedSuccessfully);
                     break;
             }
         }
