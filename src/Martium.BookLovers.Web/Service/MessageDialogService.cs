@@ -6,10 +6,12 @@ namespace Martium.BookLovers.Web.Service
     public class MessageDialogService
     {
         private readonly ErrorMessage _errorMessage;
+        private readonly InfoMessage _infoMessage;
 
         public MessageDialogService()
         {
             _errorMessage = new ErrorMessage();
+            _infoMessage = new InfoMessage();
         }
 
         public void ShowErrorMessage(ErrorsTypes errorsTypes)
@@ -67,9 +69,23 @@ namespace Martium.BookLovers.Web.Service
             }
         }
 
-        public void ShowInfoMessage(string infoMessage)
+        public void ShowInfoMessage(InfoTypes infoTypes)
         {
-            MessageBox.Show(infoMessage);
+            switch (infoTypes)
+            {
+                case InfoTypes.NewAuthorCreated:
+                    MessageBox.Show(_infoMessage.NewAuthorCreated);
+                    break;
+                case InfoTypes.AuthorUpdateSuccessful:
+                    MessageBox.Show(_infoMessage.UpdateSuccessful);
+                    break;
+                case InfoTypes.DeletedSuccessful:
+                    MessageBox.Show(_infoMessage.DeletedSuccessful);
+                    break;
+                case InfoTypes.NewBookCreated:
+                    MessageBox.Show(_infoMessage.NewBookCreated);
+                    break;
+            }
         }
 
 

@@ -150,7 +150,7 @@ namespace Martium.BookLovers.Web
 
             bool isCreated = _authorsApiClient.CreateNewAuthor(newAuthor);
 
-            ShowStatusMessage(isCreated, "New Author Created successfully", ErrorsTypes.NewAuthorWasNotCreated);
+            ShowStatusMessage(isCreated, InfoTypes.NewAuthorCreated, ErrorsTypes.NewAuthorWasNotCreated);
         }
 
         private void UpdateAuthorButton_Click(object sender, EventArgs e)
@@ -189,7 +189,7 @@ namespace Martium.BookLovers.Web
 
             bool isUpdated = _authorsApiClient.UpdateAuthorById(updateAuthor, id);
 
-            ShowStatusMessage(isUpdated, "Updated Successful", ErrorsTypes.AuthorWasNotUpdated);
+            ShowStatusMessage(isUpdated,InfoTypes.AuthorUpdateSuccessful, ErrorsTypes.AuthorWasNotUpdated);
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -205,7 +205,7 @@ namespace Martium.BookLovers.Web
 
             bool isDeleted = _authorsApiClient.DeleteAuthorById(id);
 
-            ShowStatusMessage(isDeleted, "Deleted Successful", ErrorsTypes.AuthorWasDeletedBeforeOrNotExitsAtAll);
+            ShowStatusMessage(isDeleted, InfoTypes.AuthorDeletedSuccessful, ErrorsTypes.AuthorWasDeletedBeforeOrNotExitsAtAll);
         }
 
         private void GetAllBooksButton_Click(object sender, EventArgs e)
@@ -311,7 +311,7 @@ namespace Martium.BookLovers.Web
 
             bool isCreated = _booksApiClient.CreateNewAuthor(newBook);
 
-            ShowStatusMessage(isCreated, "New Book Created successfully", ErrorsTypes.NewBookWasNotCreated);
+            ShowStatusMessage(isCreated, InfoTypes.NewBookCreated, ErrorsTypes.NewBookWasNotCreated);
         }
 
         private void UpdateBookButton_Click(object sender, EventArgs e)
@@ -336,7 +336,7 @@ namespace Martium.BookLovers.Web
 
             bool isBookUpdated = _booksApiClient.UpdateBookById(updateBook, id);
 
-            ShowStatusMessage(isBookUpdated, "Book updated Successfully", ErrorsTypes.BookWasNotUpdated);
+            ShowStatusMessage(isBookUpdated, InfoTypes.BookUpdatedSuccessfully, ErrorsTypes.BookWasNotUpdated);
         }
 
         private void DeleteBookButton_Click(object sender, EventArgs e)
@@ -352,7 +352,7 @@ namespace Martium.BookLovers.Web
 
             bool isDeleted = _booksApiClient.DeleteBookById(id);
 
-            ShowStatusMessage(isDeleted, "Deleted Successful", ErrorsTypes.BookWasDeletedBeforeOrNotExitsAtAll);
+            ShowStatusMessage(isDeleted, InfoTypes.BookDeletedSuccessfully, ErrorsTypes.BookWasDeletedBeforeOrNotExitsAtAll);
         }
 
         private void ClearAllAuthorsTextBoxesButton_Click(object sender, EventArgs e)
@@ -417,11 +417,11 @@ namespace Martium.BookLovers.Web
             return book;
         }
 
-        private void ShowStatusMessage(bool isSuccessful, string successMessage, ErrorsTypes errorsTypes)
+        private void ShowStatusMessage(bool isSuccessful, InfoTypes infoTypes, ErrorsTypes errorsTypes)
         {
             if (isSuccessful)
             {
-                _messageDialogService.ShowInfoMessage(successMessage);
+                _messageDialogService.ShowInfoMessage(infoTypes);
             }
             else
             {
